@@ -1,5 +1,8 @@
 package com.zihai.h2Client.controller;
+import com.zihai.h2Client.Listener.NetWorkEvent;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,10 +12,18 @@ import java.util.Map;
 
 @RestController
 public class TestController {
+    private static final Logger LOGGER = Logger.getLogger(TestController.class);
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Value("${name}")
+    private String name;
+    @Value("${age}")
+    private Integer age;
+
     @RequestMapping("getH2")
     public List getH2(){
+        LOGGER.info(name+age);
         return jdbcTemplate.queryForList("select  * from user");
     }
     @RequestMapping("saveH2")
