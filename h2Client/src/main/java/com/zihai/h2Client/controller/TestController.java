@@ -1,10 +1,12 @@
 package com.zihai.h2Client.controller;
 import com.zihai.h2Client.Listener.NetWorkEvent;
+import com.zihai.h2Client.dto.TestDto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,7 +22,16 @@ public class TestController {
     private String name;
     @Value("${age}")
     private Integer age;
-
+    @RequestMapping(value = "testPost",method = RequestMethod.POST)
+    public String testPost(TestDto dto){
+        LOGGER.info("testPost"+name+age);
+        return "testPost"+dto.getName()+dto.getAge();
+    }
+    @RequestMapping("getVisitor")
+    public List getVisitor(){
+        LOGGER.info(name+age);
+        return jdbcTemplate.queryForList("select  * from visitor where id='a003907392444b19be0db272a23b420a'");
+    }
     @RequestMapping("getH2")
     public List getH2(){
         LOGGER.info(name+age);
