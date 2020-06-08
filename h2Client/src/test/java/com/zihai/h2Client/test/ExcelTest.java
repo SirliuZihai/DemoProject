@@ -46,7 +46,7 @@ public class ExcelTest {
      * @param colNum 起始列
      * */
     public static void printTable(Sheet sheet,JsonArray arr,int colNum,int rowNum){
-        colNum=-1; //起始列 先减1。以后每用一列先加1。
+        colNum--; //起始列 先减1。以后每用一列先加1。
         for(JsonElement ele : arr){
             int[] lastColNum_RowNum = printRow(sheet,ele,colNum,rowNum);
             rowNum = lastColNum_RowNum[1] +1;
