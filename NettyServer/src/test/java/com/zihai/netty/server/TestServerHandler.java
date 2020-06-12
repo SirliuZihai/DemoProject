@@ -5,8 +5,6 @@ import com.zihai.proto.entity.People;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.Attribute;
-import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
 
 public class TestServerHandler extends ChannelInboundHandlerAdapter {
@@ -15,9 +13,13 @@ public class TestServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("channelRead");
         try {
             ByteBuf buf = (ByteBuf) msg;
-            byte[] array = buf.array();
+            byte[] array = new byte[buf.readableBytes()];
+            buf.readBytes(array);
             People.Parent part = People.Parent.parseFrom(array);
-            ctx.write(part.getName());
+            int length = part.getName().getBytes().length;
+            ByteBuf encoded = ctx.alloc().buffer(length);
+            encoded.writeBytes(part.getName().getBytes());
+            ctx.write(encoded);
             ctx.flush();
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
@@ -36,13 +38,12 @@ public class TestServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         System.out.println("read Complete");
-        ctx.flush();
+        ctx.fireChannelReadComplete();
     }
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("有个连接上来了....");
-        ctx.read();
-        super.channelActive(ctx);
+        ctx.fireChannelActive();
     }
 
 }

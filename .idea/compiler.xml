@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="NettyServer" />
         <module name="nettyClient" />
+        <module name="base" />
         <module name="h2Client" />
       </profile>
     </annotationProcessing>

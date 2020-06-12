@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>NettyServer</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.zihai</groupId>
+            <artifactId>base</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

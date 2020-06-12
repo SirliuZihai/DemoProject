@@ -5,10 +5,8 @@ import com.sun.org.slf4j.internal.Logger;
 import com.sun.org.slf4j.internal.LoggerFactory;
 import com.zihai.proto.entity.People.Parent;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -34,7 +32,7 @@ public class ProtoTest {
 
         byte[] bytes = parent.toByteArray();
         Parent part = Parent.parseFrom(bytes);
-        System.out.println(new Gson().toJson(part));
+        System.out.println(part.getName());
 
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -45,17 +43,20 @@ public class ProtoTest {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new TestClientHandler());
+                    ch.pipeline().addLast(new TestClientHandler(){
+                        @Override
+                        public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                            ByteBuf encoded = ctx.alloc().buffer(bytes.length);
+                            encoded.writeBytes(bytes);
+                            ctx.write(encoded);
+                            ctx.flush();
+                        }
+                    });
                 }
             });
 
             // Start the client.
             ChannelFuture f = b.connect(host, port).sync(); // (5)
-            if (f.isSuccess()) {
-                System.out.println("connect server  success");
-                f.channel().writeAndFlush(bytes);
-            }
-
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {

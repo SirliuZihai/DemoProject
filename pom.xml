@@ -12,6 +12,7 @@
         <module>h2Client</module>
         <module>NettyServer</module>
         <module>nettyClient</module>
+        <module>base</module>
     </modules>
 
     <parent>

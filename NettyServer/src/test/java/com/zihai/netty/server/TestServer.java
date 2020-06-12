@@ -27,6 +27,8 @@ public class TestServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
+                            System.out.println("server  start");
+                            //ch.config().setAutoRead(true);
                             ch.pipeline().addLast(new TestServerHandler());
                         }
                     })
