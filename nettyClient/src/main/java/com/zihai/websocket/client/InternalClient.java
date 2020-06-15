@@ -24,7 +24,7 @@ public class InternalClient implements CommandLineRunner {
             // add listener
             clientEndPoint.addMessageHandler(new WebsocketHandler.MessageHandler() {
                 public void handleMessage(String message) {
-                    LOGGER.info("send =="+message);
+                    LOGGER.info("receive =="+message);
                 }
             });
 
