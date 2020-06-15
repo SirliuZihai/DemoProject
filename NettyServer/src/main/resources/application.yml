@@ -1,0 +1,26 @@
+server:
+  id: 1
+  port: 7091
+  websocket:
+    port: 8987
+#
+#spring:
+#  application:
+#    name: iim-gateway-comet
+#  dubbo:
+#    protocol:
+#      name: dubbo
+#      port: 20801
+#    consumer:
+#      check: false
+#      timeout: 5000
+#      retries: 0
+#    registry:
+#      address: zookeeper://127.0.0.1:2181
+#  profiles:
+#    active: dev
+#  redis:
+#    database: 1
+#    host: 127.0.0.1
+#    port: 6379
+#    password:

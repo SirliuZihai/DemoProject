@@ -1,15 +1,18 @@
 package com.zihai;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
+@SpringBootApplication
+@EnableAutoConfiguration
+@ComponentScan("com.zihai")
 public class App {
     public static void main(String[] args) {
-        Properties pr = System.getProperties();
-        for(Map.Entry<Object, Object> entry: pr.entrySet()){
-            System.out.println(entry.getKey()+"："+entry.getValue());
-        }
-
+            SpringApplication.run(App.class, args);
     }
 }
