@@ -17,7 +17,7 @@ public class InternalClient implements CommandLineRunner {
     public void run(String... args) throws Exception {
         try {
             // open websocket
-            clientEndPoint = new WebsocketHandler(new URI("wss://localhost:8987/test"));
+            clientEndPoint = new WebsocketHandler(new URI("ws://localhost:8987/test"));
 
             // add listener
             clientEndPoint.addMessageHandler(new WebsocketHandler.MessageHandler() {
