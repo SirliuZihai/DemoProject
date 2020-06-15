@@ -9,6 +9,7 @@ public class InternalTask {
 
     @Scheduled(fixedRate = 3000,initialDelay=1000)
     public void heart(){
+        LOGGER.info("send: 我是hui ");
         InternalClient.clientEndPoint.sendMessage("我是hui");
     }
 }

@@ -1,5 +1,6 @@
 package com.zihai.websocket.client;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContextAware;
@@ -11,6 +12,7 @@ import java.net.URISyntaxException;
 
 @Component
 public class InternalClient implements CommandLineRunner {
+    private static final Logger LOGGER = Logger.getLogger(InternalTask.class);
     static WebsocketHandler clientEndPoint;
 
     @Override
@@ -22,7 +24,7 @@ public class InternalClient implements CommandLineRunner {
             // add listener
             clientEndPoint.addMessageHandler(new WebsocketHandler.MessageHandler() {
                 public void handleMessage(String message) {
-                    System.out.println(message);
+                    LOGGER.info("send =="+message);
                 }
             });
 
