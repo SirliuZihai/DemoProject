@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Optional;
 
 /**
  ** 消息处理类
@@ -24,8 +23,8 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(ChatServerHandler.class);
 
-    private static Map<String,ChannelHandlerContext> map = new ConcurrentHashMap();
-    
+    private Integer count = 0;
+
     @Value("${server.id}")
     private int serverId;
 
@@ -52,6 +51,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         ctx.close();
         logger.error("断开连接：{}",ctx.channel().id().asLongText());
+        count = 0;
     }
 
     /**
@@ -65,6 +65,10 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
     protected void channelRead0(ChannelHandlerContext ctx, String json) throws Exception {
         logger.info("收到消息：{}", json);
         ctx.channel().writeAndFlush("ok");
+        logger.info("count:{}", count);
+        if(++count >= 5){
+            ctx.channel().close();
+        }
     }
 
     /**

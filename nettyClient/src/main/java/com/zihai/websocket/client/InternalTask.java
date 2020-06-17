@@ -7,9 +7,8 @@ import org.springframework.stereotype.Component;
 public class InternalTask {
     private static final Logger LOGGER = Logger.getLogger(InternalTask.class);
 
-    @Scheduled(fixedRate = 3000,initialDelay=1000)
+    @Scheduled(fixedRate = 3000,initialDelay=2000)
     public void heart(){
-        LOGGER.info("send: 我是hui ");
         InternalClient.clientEndPoint.sendMessage("我是hui");
     }
 }
