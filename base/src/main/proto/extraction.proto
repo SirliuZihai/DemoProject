@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_package = "com.zihai.proto.entity";
+
+option java_outer_classname = "People";
+
+package peple;
+
+message Son{
+    string name = 1;
+    int32 age =2;
+}
+
+message Parent{
+    string name = 1;
+    int32 age = 2;
+    string like = 3;
+}
