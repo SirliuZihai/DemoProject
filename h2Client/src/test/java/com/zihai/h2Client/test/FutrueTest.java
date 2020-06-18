@@ -1,19 +1,40 @@
 package com.zihai.h2Client.test;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 public class FutrueTest {
+    private static Integer count = 0;
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                Thread.currentThread().sleep(10000);
-                return "ok";
+        List<Future<String>> resultList = new ArrayList<Future<String>>();
+
+        ExecutorService pool = Executors.newCachedThreadPool();
+        for(int i=0;i<10;i++){
+            FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    Thread.sleep(1000);
+                    synchronized (count){
+                        return "ok"+(++count);
+                    }
+                }
+            });
+            pool.submit(futureTask);
+            resultList.add(futureTask);
+        }
+        pool.shutdown();
+       // 遍历任务的结果
+        for (Future<String> fs : resultList) {
+            try {
+                System.out.println(fs.get()); // 打印各个线程（任务）执行的结果
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                pool.shutdownNow();
+                e.printStackTrace();
+                return;
             }
-        });
-        futureTask.run();
-        System.out.println(futureTask.get());
+        }
     }
 }

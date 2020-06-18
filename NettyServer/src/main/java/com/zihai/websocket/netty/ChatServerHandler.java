@@ -63,12 +63,11 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String json) throws Exception {
-        logger.info("收到消息：{}", json);
-        ctx.channel().writeAndFlush("ok");
-        logger.info("count:{}", count);
-        if(++count >= 5){
+        logger.info("收到消息：{},count:{}", json,count);
+        ctx.channel().writeAndFlush("ok"+count++);
+        /*if(++count >= 5){
             ctx.channel().close();
-        }
+        }*/
     }
 
     /**

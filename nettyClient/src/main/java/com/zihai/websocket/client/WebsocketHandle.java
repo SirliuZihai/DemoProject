@@ -1,15 +1,19 @@
 package com.zihai.websocket.client;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.concurrent.*;
 import javax.websocket.*;
 
 @ClientEndpoint
 public class WebsocketHandle {
-    private static final Logger LOGGER = Logger.getLogger(WebsocketHandle.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketHandle.class);
     private URI endpointURI;
-
+    private Integer count;
+    private ExecutorService pool = Executors.newCachedThreadPool();
     Session userSession = null;
 
     public WebsocketHandle(URI endpointURI) {
@@ -45,7 +49,7 @@ public class WebsocketHandle {
         try {
             userSession.close();
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error("onClose",e);
         }
     }
 
@@ -54,20 +58,30 @@ public class WebsocketHandle {
      *
      * @param message The text message
      */
-    @OnMessage
-    public void onMessage(String message){
-        LOGGER.info("receive =="+message);
+    @OnMessage(maxMessageSize=1024*1024*100)
+    public void onMessage(String message) throws ExecutionException, InterruptedException {
+        pool.execute(()->{
+            try {
+                Thread.sleep(1000);
+                synchronized (count){
+                    LOGGER.info("count: {} cosumer {}",count,message);
+                }
+            } catch (InterruptedException e) {
+                LOGGER.error("onMessage",e);
+            }
+
+        });
     };
 
     @OnError
     public void onError(Throwable thw){
         try {
             this.userSession.close();
+            LOGGER.error("onError",thw);
         } catch (IOException e) {
-            LOGGER.error(e);
-        }finally {
-            restart();
+            LOGGER.error("onError",e);
         }
+        restart();
     }
 
     private void restart(){
@@ -77,7 +91,7 @@ public class WebsocketHandle {
             container.connectToServer(this, endpointURI);
             LOGGER.info("reconnect  "+endpointURI.getPath());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("restart",e);
         }
     }
     /**
@@ -86,7 +100,7 @@ public class WebsocketHandle {
      * @param message
      */
     public synchronized void sendMessage(String message) {
-        LOGGER.info("send: 我是hui ");
+        LOGGER.info("send:"+message);
         if (this.userSession.isOpen()) {
             this.userSession.getAsyncRemote().sendText(message);
         } else {
