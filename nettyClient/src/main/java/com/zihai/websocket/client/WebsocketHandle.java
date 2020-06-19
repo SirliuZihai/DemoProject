@@ -12,8 +12,8 @@ import javax.websocket.*;
 public class WebsocketHandle {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketHandle.class);
     private URI endpointURI;
-    private Integer count;
-    private ExecutorService pool = Executors.newCachedThreadPool();
+    private Integer count =0;
+    private ExecutorService pool = Executors.newFixedThreadPool(1000);
     Session userSession = null;
 
     public WebsocketHandle(URI endpointURI) {
@@ -58,15 +58,16 @@ public class WebsocketHandle {
      *
      * @param message The text message
      */
-    @OnMessage(maxMessageSize=1024*1024*100)
+    @OnMessage(maxMessageSize=1024*500)
     public void onMessage(String message) throws ExecutionException, InterruptedException {
         pool.execute(()->{
             try {
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
                 synchronized (count){
-                    LOGGER.info("count: {} cosumer {}",count,message);
+                    Thread.sleep(20);
+                    LOGGER.info("count: {} cosumer {}",++count,message);
                 }
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 LOGGER.error("onMessage",e);
             }
 
@@ -100,11 +101,13 @@ public class WebsocketHandle {
      * @param message
      */
     public synchronized void sendMessage(String message) {
-        LOGGER.info("send:"+message);
         if (this.userSession.isOpen()) {
+            LOGGER.info("send:"+message);
             this.userSession.getAsyncRemote().sendText(message);
         } else {
             restart();
+            LOGGER.info("send:"+message);
+            this.userSession.getAsyncRemote().sendText(message);
         }
     }
 

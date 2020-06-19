@@ -9,7 +9,7 @@ public class FutrueTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         List<Future<String>> resultList = new ArrayList<Future<String>>();
 
-        ExecutorService pool = Executors.newCachedThreadPool();
+        ExecutorService pool = Executors.newSingleThreadExecutor();
         for(int i=0;i<10;i++){
             FutureTask<String> futureTask = new FutureTask<>(new Callable<String>() {
                 @Override

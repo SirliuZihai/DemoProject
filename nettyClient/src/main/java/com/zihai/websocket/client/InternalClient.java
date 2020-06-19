@@ -4,8 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.websocket.EndpointConfig;
-import javax.websocket.Session;
 import java.net.URI;
 import java.net.URISyntaxException;
 
