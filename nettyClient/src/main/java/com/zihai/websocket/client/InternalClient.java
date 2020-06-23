@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@Component
+/*@Component
 public class InternalClient implements CommandLineRunner {
     private static final Logger LOGGER = Logger.getLogger(InternalTask.class);
     static WebsocketHandle clientEndPoint;
@@ -22,4 +22,4 @@ public class InternalClient implements CommandLineRunner {
             System.err.println("URISyntaxException exception: " + ex.getMessage());
         }
     }
-}
+}*/

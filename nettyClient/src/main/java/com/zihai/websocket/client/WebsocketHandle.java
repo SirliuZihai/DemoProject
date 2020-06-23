@@ -2,31 +2,31 @@ package com.zihai.websocket.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
+import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.*;
+import java.net.URISyntaxException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.websocket.*;
 
 @ClientEndpoint
+@Component
 public class WebsocketHandle {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketHandle.class);
-    private URI endpointURI;
+    @Autowired
+    private TaskBean taskBean;
+    private URI endpointURI = new URI("ws://localhost:8987/test");
     private AtomicInteger count =new AtomicInteger(0);
-    private volatile Integer count2 = 0;
-    private  Integer count3 = 0;
-    private Object obj = new Object();
-    private static ExecutorService pool = Executors.newFixedThreadPool(500);
     Session userSession = null;
 
-    public WebsocketHandle(URI endpointURI) {
+    public WebsocketHandle() throws URISyntaxException {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);
-            this.endpointURI = endpointURI;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -66,19 +66,7 @@ public class WebsocketHandle {
      */
     @OnMessage(maxMessageSize=1024*500)
     public void onMessage(String message) throws ExecutionException, InterruptedException {
-        pool.submit(()->{
-            try {
-                //Thread.sleep(1000);
-                synchronized (this){
-                    ++count3;++count2;count.incrementAndGet();
-                    LOGGER.info("count3 {} count2 {} count: {} cosumer {}",count3,count2,count.get(),message);
-                }
-                Thread.sleep(20);
-            } catch (Exception e) {
-                LOGGER.error("onMessage",e);
-            }
-
-        });
+        taskBean.dealMessage(message,count);
     };
 
     @OnError
