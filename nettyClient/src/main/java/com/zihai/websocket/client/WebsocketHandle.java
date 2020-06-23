@@ -5,15 +5,21 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.websocket.*;
 
 @ClientEndpoint
 public class WebsocketHandle {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketHandle.class);
     private URI endpointURI;
-    private Integer count =0;
-    private ExecutorService pool = Executors.newFixedThreadPool(1000);
+    private AtomicInteger count =new AtomicInteger(0);
+    private volatile Integer count2 = 0;
+    private  Integer count3 = 0;
+    private Object obj = new Object();
+    private static ExecutorService pool = Executors.newFixedThreadPool(500);
     Session userSession = null;
 
     public WebsocketHandle(URI endpointURI) {
@@ -60,13 +66,14 @@ public class WebsocketHandle {
      */
     @OnMessage(maxMessageSize=1024*500)
     public void onMessage(String message) throws ExecutionException, InterruptedException {
-        pool.execute(()->{
+        pool.submit(()->{
             try {
                 //Thread.sleep(1000);
-                synchronized (count){
-                    Thread.sleep(20);
-                    LOGGER.info("count: {} cosumer {}",++count,message);
+                synchronized (this){
+                    ++count3;++count2;count.incrementAndGet();
+                    LOGGER.info("count3 {} count2 {} count: {} cosumer {}",count3,count2,count.get(),message);
                 }
+                Thread.sleep(20);
             } catch (Exception e) {
                 LOGGER.error("onMessage",e);
             }
