@@ -1,8 +1,8 @@
 import com.google.gson.Gson;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+
+import com.zihai.proto.entity.People;
 import com.zihai.proto.entity.People.Parent;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -10,6 +10,13 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +26,7 @@ public class ProtoTest {
 
     private static String host = "localhost";
     private static int port = 8080;
-
+    private static ChannelHandlerContext ctx2 = null;
     public static void main(String[] args) throws InvalidProtocolBufferException {
         Map<String,Object> data = new HashMap<>();
         data.put("name","龙且");
@@ -29,11 +36,23 @@ public class ProtoTest {
         Parent.Builder builder = Parent.newBuilder();
         JsonFormat.parser().merge(obj, builder);
         Parent parent = builder.build();
-
+        LOGGER.info( JsonFormat.printer().print(parent));
         byte[] bytes = parent.toByteArray();
         Parent part = Parent.parseFrom(bytes);
         System.out.println(part.getName());
-
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(4000);
+                    Assert.notNull(ctx2,"ctx2 is null");
+                    ctx2.writeAndFlush(part);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap(); // (1)
@@ -43,13 +62,19 @@ public class ProtoTest {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
+                    ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
+                    ch.pipeline().addLast(new ProtobufDecoder(People.Son.getDefaultInstance()));
+                    ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
+                    ch.pipeline().addLast(new ProtobufEncoder());
                     ch.pipeline().addLast(new TestClientHandler(){
                         @Override
                         public void channelActive(ChannelHandlerContext ctx) throws Exception {
-                            ByteBuf encoded = ctx.alloc().buffer(bytes.length);
+                            LOGGER.info("socket is activity");
+                            ctx2 = ctx;
+                            //ctx.writeAndFlush(part);
+                            /*ByteBuf encoded = ctx.alloc().buffer(bytes.length);
                             encoded.writeBytes(bytes);
-                            ctx.write(encoded);
-                            ctx.flush();
+                            ctx.writeAndFlush(encoded);*/
                         }
                     });
                 }

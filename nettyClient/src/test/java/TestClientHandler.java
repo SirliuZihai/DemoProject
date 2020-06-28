@@ -1,18 +1,18 @@
+import com.zihai.proto.entity.People;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
-
+@ChannelHandler.Sharable
 public class TestClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        ByteBuf m = (ByteBuf) msg; // (1)
         try {
-            byte[] array = new byte[m.readableBytes()];
-            m.readBytes(array);
-            System.out.println(new String(array));
+            People.Son s = (People.Son) msg; // (1)
+            System.out.println(s.getName());
         } finally {
-            ReferenceCountUtil.release(m);
+            ReferenceCountUtil.release(msg);
         }
     }
 
