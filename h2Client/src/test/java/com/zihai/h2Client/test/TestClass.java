@@ -8,8 +8,8 @@ import java.io.IOException;
 public class TestClass {
     public static void main(String[] args) throws IOException {
         TestClass test = new TestClass();
-        String path =TestClass.class.getClassLoader().getResource("").getPath()+"db/";
-        String context = FileUtils.readFileToString(new File(path+"data.sql"));
-        System.out.println(context);
+        //String path =TestClass.class.getClassLoader().getResource("").getPath()+"db/";
+        //String context = FileUtils.readFileToString(new File(path+"data.sql"));
+        System.out.println("\u51EF\u5FB7\u7528\u672C\u5730");
     }
 }

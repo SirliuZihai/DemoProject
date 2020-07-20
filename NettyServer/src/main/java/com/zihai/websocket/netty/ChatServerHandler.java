@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  ** 消息处理类
@@ -22,8 +23,7 @@ import java.util.Optional;
 public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(ChatServerHandler.class);
-
-    private Integer count = 0;
+    private static ConcurrentHashMap<String,Integer> channelMap = new ConcurrentHashMap<>();
 
     @Value("${server.id}")
     private int serverId;
@@ -37,6 +37,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.info("客户端与服务端连接开启:  {}", ctx.channel().id().asLongText());
+        channelMap.put(ctx.channel().id().asLongText(),0);
         //map.put(ctx.channel().id().asLongText(),ctx);
 
     }
@@ -51,7 +52,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         ctx.close();
         logger.error("断开连接：{}",ctx.channel().id().asLongText());
-        count = 0;
+        channelMap.remove(ctx.channel().id().asLongText());
     }
 
     /**
@@ -63,7 +64,9 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String json) throws Exception {
-        logger.info("收到消息：{},count:{}", json,++count);
+        Integer count = channelMap.get(ctx.channel().id().asLongText());
+        logger.info("收到消息：{},count:{}", json,count++);
+        channelMap.put(ctx.channel().id().asLongText(),count);
         ctx.channel().writeAndFlush(json+"收到count:"+count);
         /*if(++count >= 5){
             ctx.channel().close();

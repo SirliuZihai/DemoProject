@@ -1,8 +1,10 @@
 package com.zihai.h2Client.test;
 
-import org.apache.log4j.Logger;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +22,7 @@ import javax.annotation.Resource;
 @ComponentScan("com.zihai")
 @SpringBootTest
 public class RedisTest {
-    private static final Logger LOGGER = Logger.getLogger(RedisTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisTest.class);
     @Autowired
     private RedisTemplate<String,String> redisTemplate1;
 

@@ -3,18 +3,17 @@ package com.zihai.h2Client.Listener;
 import com.zihai.h2Client.util.Constant;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 import java.io.File;
 
 @Component
 public class FileListener extends  FileAlterationListenerAdaptor{
 	private ApplicationContext applicationContext;
-	private static final Logger LOGGER = Logger.getLogger(FileListener.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileListener.class);
 	
 	public FileListener(ApplicationContext object){
 		this.applicationContext = object;

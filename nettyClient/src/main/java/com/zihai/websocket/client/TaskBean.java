@@ -12,10 +12,10 @@ public class TaskBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskBean.class);
 
     @Async
-    public void dealMessage(String message,AtomicInteger count) throws InterruptedException {
+    public String dealMessage(String message,AtomicInteger count) throws InterruptedException {
         synchronized (this){
             LOGGER.info("count: {} cosumer {}",count.incrementAndGet(),message);
+            return "";
         }
-        Thread.sleep(20);
     }
 }

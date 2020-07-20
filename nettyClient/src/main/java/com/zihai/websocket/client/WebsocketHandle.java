@@ -3,7 +3,6 @@ package com.zihai.websocket.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -39,7 +38,7 @@ public class WebsocketHandle {
      */
     @OnOpen
     public void onOpen(Session userSession) {
-        System.out.println("opening websocket");
+        LOGGER.info("opening websocket");
         this.userSession = userSession;
     }
 
@@ -51,7 +50,7 @@ public class WebsocketHandle {
      */
     @OnClose
     public void onClose(Session userSession, CloseReason reason) {
-        System.out.println("closing websocket");
+        LOGGER.info("closing websocket with resason code "+reason.getCloseCode());
         try {
             userSession.close();
         } catch (IOException e) {
@@ -64,9 +63,15 @@ public class WebsocketHandle {
      *
      * @param message The text message
      */
-    @OnMessage(maxMessageSize=1024*500)
+    @OnMessage(maxMessageSize=10)
     public void onMessage(String message) throws ExecutionException, InterruptedException {
-        taskBean.dealMessage(message,count);
+        try {
+            LOGGER.info(taskBean.dealMessage(message,count));
+        }catch (RuntimeException e){
+            LOGGER.info(e.getMessage());
+        }
+
+
     };
 
     @OnError

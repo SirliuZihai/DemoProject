@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,7 +22,7 @@ import java.util.Map;
  * 本方法用于 数据库一对多联表查询数据导出Excel —> 先输出成json -->再输出excel格式。
  */
 public class ExcelTest {
-    private static final Logger LOGGER = Logger.getLogger(ExcelTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelTest.class);
     private static CellStyle style;
 
     public static void main(String[] args) throws URISyntaxException, IOException {
