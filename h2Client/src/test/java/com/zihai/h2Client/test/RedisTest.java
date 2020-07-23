@@ -16,6 +16,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
@@ -23,18 +24,47 @@ import javax.annotation.Resource;
 @SpringBootTest
 public class RedisTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisTest.class);
-    @Autowired
-    private RedisTemplate<String,String> redisTemplate1;
+  /*  @Autowired
+    private RedisTemplate<String,String> redisTemplate1;*/
 
     @Resource(name="redisOneTemplate")
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String,Integer> redisTemplate;
 
     @Test
-    public void doTest(){
-        redisTemplate1.opsForValue().set("myname","liuyizhi4");
-        LOGGER.info(redisTemplate1.opsForValue().get("myname"));
-        redisTemplate.opsForValue().set("myname","liuyizhi5");
-        LOGGER.info(redisTemplate.opsForValue().get("myname"));
+    public void doTest() throws InterruptedException {
+        redisTemplate.opsForValue().set("count",2001);
+
+        //concurrent test
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                for(int i=0;i<1000;i++){
+                    synchronized (redisTemplate){
+                        Integer count = redisTemplate.opsForValue().get("count");
+                        LOGGER.info("Thread1 count {},i {}= ",count,i);
+                        redisTemplate.opsForValue().increment("count",-1);
+                    }
+
+                }
+
+            }
+        };
+        t.start();
+        Thread t2 = new Thread(){
+            @Override
+            public void run() {
+                for(int i=0;i<1000;i++){
+                    synchronized (redisTemplate) {
+                        Integer count = redisTemplate.opsForValue().get("count");
+                        LOGGER.info("Thread2 count {},i {}= ",count,i);
+                        redisTemplate.opsForValue().increment("count",-1);
+                    }
+                }
+
+            }
+        };
+        t2.start();
+        Thread.sleep(100000);
     }
 
     public static void main(String[] args) {

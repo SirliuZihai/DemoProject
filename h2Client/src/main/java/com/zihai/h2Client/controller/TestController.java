@@ -2,6 +2,7 @@ package com.zihai.h2Client.controller;
 
 import com.zihai.h2Client.dto.TestDto;
 
+import com.zihai.h2Client.service.TestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class TestController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private TestService testService;
     @Value("${name}")
     private String name;
     @Value("${age}")
@@ -31,7 +35,12 @@ public class TestController {
     @RequestMapping("getVisitor")
     public List getVisitor(){
         LOGGER.info(name+age);
-        return jdbcTemplate.queryForList("select  * from visitor where id='a003907392444b19be0db272a23b420a'");
+
+        try {
+            return testService.doSomething();
+        } catch (Exception e) {
+            return jdbcTemplate.queryForList("select  * from visitor where name = 'LYZ'");
+        }
     }
     @RequestMapping("getH2")
     public List getH2(){

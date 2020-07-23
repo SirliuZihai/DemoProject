@@ -7,6 +7,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -79,6 +80,7 @@ public class RedisConfig {
         RedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(
                 connectionFactory(host, port, password, MAX_IDLE, MAX_TOTAL, MAX_WAIT_MILLIS, one_database));
+        template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         return template;
     }
 

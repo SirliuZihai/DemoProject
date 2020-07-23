@@ -11,7 +11,21 @@ public class TestZookeeper implements Watcher {
     public TestZookeeper() throws IOException {
     }
 
-    public static void main(String[] args) throws KeeperException, InterruptedException, IOException {
+    public static void main(String[] args) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    TestZookeeper test  = new TestZookeeper();
+                    //test.zkClient.create("/zoo/data/lock",null,ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.EPHEMERAL);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public static void test1(String[] args) throws KeeperException, InterruptedException, IOException {
 
         TestZookeeper test  = new TestZookeeper();
 //        zkClient.create("/zoo/data",null/*data*/, ZooDefs.Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
@@ -20,10 +34,9 @@ public class TestZookeeper implements Watcher {
         //zkClient.delete("/zoo/data/method0000000009");
         test.zkClient.setData(key,"haoren".getBytes(),-1);
         System.out.println("data:"+key+" "+new String(test.zkClient.getData(key,true,null)));
-         test.list("zoo/data");
+        test.list("zoo/data");
         //zkClient.create("/user",null, CreateMode.PERSISTENT);
         test.zkClient.close();
-
         System.out.println("###注册成功###");
     }
     public  void list(String groupName) throws KeeperException,
@@ -38,7 +51,9 @@ public class TestZookeeper implements Watcher {
             System.out.println(child);
         }
     }
+    public static void distributeLookTest(){
 
+    }
     @Override
     public void process(WatchedEvent event) {
         System.out.println("process"+event.getPath()+" "+event.getType());
