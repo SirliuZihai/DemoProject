@@ -1,15 +1,15 @@
 package com.zihai.h2Client.test;
 
-import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 
 public class TestClass {
-    public static void main(String[] args) throws IOException {
-        TestClass test = new TestClass();
-        //String path =TestClass.class.getClassLoader().getResource("").getPath()+"db/";
-        //String context = FileUtils.readFileToString(new File(path+"data.sql"));
-        System.out.println("\u51EF\u5FB7\u7528\u672C\u5730");
+    static final Logger logger= LoggerFactory.getLogger(TestClass.class);
+    public static void main(String[] args) throws IOException, InterruptedException {
+        for(int i=7 ;i<7;i++){
+            System.out.println(i);
+        }
     }
 }

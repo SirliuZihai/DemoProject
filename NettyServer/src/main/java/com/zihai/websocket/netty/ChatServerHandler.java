@@ -51,7 +51,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         ctx.close();
-        logger.error("断开连接：{}",ctx.channel().id().asLongText());
+        logger.info("断开连接：{}",ctx.channel().id().asLongText());
         channelMap.remove(ctx.channel().id().asLongText());
     }
 
@@ -63,14 +63,12 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
      * @throws Exception 异常
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String json) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, String json) {
         Integer count = channelMap.get(ctx.channel().id().asLongText());
         logger.info("收到消息：{},count:{}", json,count++);
         channelMap.put(ctx.channel().id().asLongText(),count);
         ctx.channel().writeAndFlush(json+"收到count:"+count);
-        /*if(++count >= 5){
-            ctx.channel().close();
-        }*/
+        throw new RuntimeException("tst");
     }
 
     /**

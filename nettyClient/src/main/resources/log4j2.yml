@@ -26,7 +26,7 @@ Configuration:
     RollingFile:
       - name: ROLLING_FILE
         fileName: ${log.path}/${project.name}.log
-        filePattern: "${log.path}/historyRunLog/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"
+        filePattern: "${log.path}/historyRunLog/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log"
         PatternLayout:
           pattern: ${log.pattern}
         Filters:
@@ -48,7 +48,7 @@ Configuration:
       - name: PLATFORM_ROLLING_FILE
         ignoreExceptions: false
         fileName: ${log.path}/platform/${project.name}_platform.log
-        filePattern: "${log.path}/platform/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log.gz"
+        filePattern: "${log.path}/platform/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log"
         PatternLayout:
           pattern: ${log.pattern}
         Policies:

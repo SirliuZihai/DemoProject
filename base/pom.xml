@@ -18,16 +18,16 @@
             <version>3.4.0</version>
         </dependency>
     </dependencies>
-   <!-- <build>
+
+   <!--<build>
         <extensions>
             <extension>
                 <groupId>kr.motd.maven</groupId>
-                <artifactId>os-maven-plugin</artifactId>&lt;!&ndash;引入操作系统os设置的属性插件,否则${os.detected.classifier} 操作系统版本会找不到 &ndash;&gt;
+                <artifactId>os-maven-plugin</artifactId>
                 <version>1.5.0.Final</version>
             </extension>
         </extensions>
         <plugins>
-            &lt;!&ndash;添加编译proto文件的编译程序和对应的编译插件&ndash;&gt;
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
