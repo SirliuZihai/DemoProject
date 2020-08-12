@@ -3,6 +3,8 @@ server:
   port: 7091
   websocket:
     port: 8987
+logging:
+  config: classpath:log4j2.yml
 #
 #spring:
 #  application:

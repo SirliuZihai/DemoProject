@@ -6,11 +6,7 @@
     <groupId>com.zihai</groupId>
     <artifactId>base</artifactId>
     <packaging>jar</packaging>
-    <parent>
-        <artifactId>DemoProject</artifactId>
-        <groupId>com.zihai</groupId>
-        <version>1.0</version>
-    </parent>
+    <version>1.0</version>
     <dependencies>
         <dependency>
             <groupId>com.google.protobuf</groupId>

@@ -20,7 +20,7 @@ public class FutrueTest {
                 public String call() throws Exception {
                     //Thread.sleep(1);
                     synchronized (count){
-                        System.out.println("ok"+(++count)); ;
+                        System.out.println("ok"+(++count));
                         return "return=="+count;
                     }
 

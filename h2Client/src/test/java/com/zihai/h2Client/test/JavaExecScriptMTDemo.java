@@ -11,6 +11,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.*;
@@ -26,7 +27,7 @@ public class JavaExecScriptMTDemo {
         InputStream in = new ClassPathResource("js/test.js").getInputStream();
         byte[] bytes = new byte[in.available()];
         in.read(bytes);
-        String str = new String(bytes,"utf-8");
+        String str = new String(bytes, StandardCharsets.UTF_8);
         CompiledScript compiledScript = engine.compile(str);
         compiledScript.eval();
         JsonObject gson = new JsonObject();

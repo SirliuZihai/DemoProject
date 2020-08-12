@@ -25,7 +25,7 @@ public class MapTest {
        Thread thread1 = new Thread(){
            @Override
            public void run(){
-               System.out.println(map.keySet().contains("123"));
+               System.out.println(map.containsKey("123"));
               Object obj2 =  map.get("123");
               synchronized (obj2){
                   System.out.println("go notify");

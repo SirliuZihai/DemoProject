@@ -1,3 +1,4 @@
+/*
 package spirngTest;
 
 import org.junit.runner.RunWith;
@@ -19,7 +20,8 @@ public class Test {
 
     }
     @org.junit.Test
-    public void business(){
+    public void bAusiness(){
         System.out.println(active);
     }
 }
+*/
