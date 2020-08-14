@@ -68,7 +68,6 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
         logger.info("收到消息：{},count:{}", json,count++);
         channelMap.put(ctx.channel().id().asLongText(),count);
         ctx.channel().writeAndFlush(json+"收到count:"+count);
-        throw new RuntimeException("tst");
     }
 
     /**
