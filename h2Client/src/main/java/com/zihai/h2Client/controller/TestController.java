@@ -27,6 +27,14 @@ public class TestController {
     private String name;
     @Value("${age}")
     private Integer age;
+
+    private String mongoUrl;
+
+    @Value("${mongoUrl}")
+    public void setMongoUrl(String mongoUrl){
+        this.mongoUrl =mongoUrl;
+    }
+
     @RequestMapping(value = "testPost",method = RequestMethod.POST)
     public String testPost(TestDto dto){
         LOGGER.info("testPost"+name+age);

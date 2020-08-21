@@ -4,16 +4,15 @@ Configuration:
 
   Properties: # 定义全局变量
     Property: # 缺省配置（用于开发环境）。其他环境需要在VM参数中指定，如下：
-      #测试：-Dlog.level.console=warn -Dlog.level.xjj=trace
-      #生产：-Dlog.level.console=warn -Dlog.level.xjj=info
+      #生产：-Dlog.level.console=warn
       - name: log.level.console
         value: info
       - name: log.path
-        value: log
+        value: /opt/java/logs
       - name: project.name
-        value: nettyClient
+        value: userCenter
       - name: log.pattern
-        value: "%d %p [%F] [%c.%M] <%L> - <%m>%n"
+        value: "%d %p [%F] [%c.%M] <%L> - %m%n"
         #"%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID:-} [%15.15t] %-30.30C{1.} : %m%n"
 
   Appenders:
@@ -24,20 +23,12 @@ Configuration:
         pattern: ${log.pattern}
     #   启动日志
     RollingFile:
-      - name: ROLLING_FILE
-        fileName: ${log.path}/${project.name}.log
-        filePattern: "${log.path}/historyRunLog/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log"
+      - name: INFOFILE
+        ignoreExceptions: false
+        fileName: ${log.path}/${project.name}/${project.name}_info.log
+        filePattern: "${log.path}/$${date:yyyy-MM}/${project.name}_info-%d{yyyy-MM-dd}-%i.log"
         PatternLayout:
           pattern: ${log.pattern}
-        Filters:
-          #        一定要先去除不接受的日志级别，然后获取需要接受的日志级别
-          ThresholdFilter:
-            - level: error
-              onMatch: DENY
-              onMismatch: NEUTRAL
-            - level: info
-              onMatch: ACCEPT
-              onMismatch: DENY
         Policies:
           TimeBasedTriggeringPolicy:  # 按天分类
             modulate: true
@@ -45,12 +36,18 @@ Configuration:
         DefaultRolloverStrategy:     # 文件最多100个
           max: 100
 
-      - name: PLATFORM_ROLLING_FILE
+      - name: ERRORFILE
         ignoreExceptions: false
-        fileName: ${log.path}/platform/${project.name}_platform.log
-        filePattern: "${log.path}/platform/$${date:yyyy-MM}/${project.name}-%d{yyyy-MM-dd}-%i.log"
+        fileName: ${log.path}/${project.name}/${project.name}_error.log
+        filePattern: "${log.path}/$${date:yyyy-MM}/${project.name}_error-%d{yyyy-MM-dd}-%i.log"
         PatternLayout:
           pattern: ${log.pattern}
+        Filters:
+          #        一定要先去除不接受的日志级别，然后获取需要接受的日志级别
+          ThresholdFilter:
+            - level: error
+              onMatch: ACCEPT
+              onMismatch: DENY
         Policies:
           TimeBasedTriggeringPolicy:  # 按天分类
             modulate: true
@@ -61,11 +58,13 @@ Configuration:
   Loggers:
     Root:
       level: info
+      additivity: false
       AppenderRef:
         - ref: CONSOLE
-        - ref: ROLLING_FILE
+        - ref: INFOFILE
+        - ref: ERRORFILE
     Logger:
-      - name: platform  #com.zihai
+      - name: com.zihai
         level: info
         additivity: false
         AppenderRef:

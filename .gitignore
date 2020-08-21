@@ -1,2 +1,4 @@
 # Project exclude paths
 /h2Client/target/
+/.idea/libraries/
+/NettyServer/NettyServer.iml
