@@ -9,7 +9,7 @@ public class ZkLockTest {
             @Override
             public void run() {
                 try {
-                    ZkLock zkLock = new ZkLock(null,"/zoo/lock");
+                    ZkLock zkLock = ZkLock.ZkLockMap.get("/zoo/lock");
                     for(int i=0;i<100;i++){
                         zkLock.enter();
                         count++;
@@ -25,12 +25,12 @@ public class ZkLockTest {
             @Override
             public void run() {
                 try {
-                    ZkLock zkLock = new ZkLock(null,"/zoo/lock");
+                    ZkLock2 zkLock2 = ZkLock2.ZkLockMap.get("/zoo/lock");
                     for(int i=0;i<100;i++){
-                        zkLock.enter();
+                        zkLock2.enter();
                         count++;
                         System.out.println(Thread.currentThread().getName()+" count=="+count);
-                        zkLock.leave();
+                        zkLock2.leave();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

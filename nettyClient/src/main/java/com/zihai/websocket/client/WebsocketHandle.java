@@ -72,7 +72,7 @@ public class WebsocketHandle {
         }
 
 
-    };
+    }
 
     @OnError
     public void onError(Throwable thw){
