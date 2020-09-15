@@ -9,6 +9,10 @@ public class ClassTest2 {
 }
 class Father {
     private String name;
+
+    Father(){
+        System.out.println("father init");
+    }
     public void excute(){
         System.out.println("do father"+getName());
     }

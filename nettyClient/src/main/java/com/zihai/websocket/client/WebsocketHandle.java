@@ -63,7 +63,7 @@ public class WebsocketHandle {
      *
      * @param message The text message
      */
-    @OnMessage(maxMessageSize=10)
+    @OnMessage(maxMessageSize=100)
     public void onMessage(String message) throws ExecutionException, InterruptedException {
         try {
             LOGGER.info(taskBean.dealMessage(message,count));
