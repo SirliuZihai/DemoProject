@@ -1,5 +1,7 @@
 package com.zihai.h2Client.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.zihai.h2Client.dto.TestDto;
 
 import com.zihai.h2Client.service.TestService;
@@ -8,10 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -28,12 +35,6 @@ public class TestController {
     @Value("${age}")
     private Integer age;
 
-    private String mongoUrl;
-
-    @Value("${mongoUrl}")
-    public void setMongoUrl(String mongoUrl){
-        this.mongoUrl =mongoUrl;
-    }
 
     @RequestMapping(value = "testPost",method = RequestMethod.POST)
     public String testPost(TestDto dto){
@@ -59,5 +60,10 @@ public class TestController {
     public String saveH2(){
         jdbcTemplate.execute("INSERT INTO USER (USE_ID,USE_NAME,USE_SEX,USE_AGE,USE_ID_NO,USE_PHONE_NUM,USE_EMAIL,CREATE_TIME,MODIFY_TIME,USE_STATE) VALUES(4,'孙四','2',24,'142323198610051237','12345678912','qe259@165.com',sysdate,sysdate,'0')");
         return "sucess";
+    }
+    @RequestMapping("attendance-record")
+    public void getVipTest(@RequestBody String object) throws IOException {
+        String imag = new Gson().fromJson(object,JsonObject.class).get("capture_img").getAsString();
+        new FileOutputStream("D:\\out.jpg").write(Base64.getDecoder().decode(imag));
     }
 }
