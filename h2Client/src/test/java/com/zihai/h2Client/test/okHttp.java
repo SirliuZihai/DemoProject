@@ -1,5 +1,6 @@
 package com.zihai.h2Client.test;
 
+import com.google.gson.JsonObject;
 import okhttp3.*;
 import okio.BufferedSink;
 import org.apache.commons.io.FileUtils;
@@ -17,7 +18,20 @@ public class okHttp {
         byte[] bytes = FileUtils.readFileToByteArray(f);
         System.out.println(bytes.length);
         System.out.println(Base64.getEncoder().encode(bytes).length);*/
-        postPicture("http://192.168.1.82:65214/registrate");
+        //postPicture("http://192.168.1.82:65214/registrate");
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("name","转义2");
+        obj.addProperty("id","46161");
+        RequestBody body = RequestBody.create(mediaType, "age=23&info="+obj.toString());
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:3000/apitest2")
+                .method("POST", body)
+                .build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
     }
     public static String postJson(String url,String json) throws IOException {
         OkHttpClient client = new OkHttpClient().newBuilder()

@@ -3,21 +3,22 @@ package com.zihai.h2Client.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.zihai.h2Client.dto.TestDto;
-
 import com.zihai.h2Client.service.TestService;
+import org.apache.commons.codec.CharEncoding;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.CharsetDecoder;
 import java.util.Base64;
 import java.util.List;
 
@@ -65,5 +66,11 @@ public class TestController {
     public void getVipTest(@RequestBody String object) throws IOException {
         String imag = new Gson().fromJson(object,JsonObject.class).get("capture_img").getAsString();
         new FileOutputStream("D:\\out.jpg").write(Base64.getDecoder().decode(imag));
+    }
+    @RequestMapping("apitest2")
+    public String apitest(@RequestParam String info) throws IOException {
+        LOGGER.info(info);
+        //LOGGER.info("age=="+age);
+        return info;
     }
 }

@@ -1,5 +1,6 @@
 package com.zihai.h2Client.test;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import freemarker.template.Configuration;
@@ -13,9 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import org.springframework.ui.freemarker.SpringTemplateLoader;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by lylhjh on 2020-09-15.
@@ -40,8 +42,10 @@ public class FTLtest {
         arrays.add("zi");
         arrays.add("ge");
         obj.add("arrays",arrays);
-        System.out.println(obj.toString());
-        String result = FreeMarkerTemplateUtils.processTemplateIntoString(template,obj);
+        Map map = new Gson().fromJson(obj, Map.class);
+        map.put("time",String.valueOf(new Date().getTime()/1000));
+        System.out.println(map.toString());
+        String result = FreeMarkerTemplateUtils.processTemplateIntoString(template,map);
         System.out.println(result);
     }
 
