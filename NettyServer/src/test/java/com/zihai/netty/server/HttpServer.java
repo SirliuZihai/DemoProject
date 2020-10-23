@@ -9,10 +9,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpResponseDecoder;
-import io.netty.handler.codec.http.HttpResponseEncoder;
-import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
@@ -37,15 +34,14 @@ public class HttpServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            System.out.println("server  start");
-                            // 编解码 http 请求
+                            // 编解码 http 请求  含HttpRequestDecoder HttpResponseEncoder
                             ch.pipeline().addLast(new HttpServerCodec());
                             // 写文件内容
                             ch.pipeline().addLast(new ChunkedWriteHandler());
                             // 聚合解码 HttpRequest/HttpContent/LastHttpContent 到 FullHttpRequest
                             // 保证接收的 Http 请求的完整性
                             ch.pipeline().addLast(new HttpObjectAggregator(64 * 1024));
-                            ch.pipeline().addLast(new HttpResponseEncoder());
+
                             ch.pipeline().addLast(new HttpServerHandler());
                         }
                     })
@@ -54,6 +50,7 @@ public class HttpServer {
 
             // Bind and start to accept incoming connections.
             ChannelFuture f = b.bind(port).sync(); // (7)
+            System.out.println("server  start");
 
             // Wait until the server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully
