@@ -15,15 +15,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @ClientEndpoint
 @Component
-public class WebsocketHandle {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketHandle.class);
+public class WebsocketHandle2 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketHandle2.class);
     @Autowired
     private TaskBean taskBean;
     private URI endpointURI = new URI("ws://localhost/test");
     private AtomicInteger count =new AtomicInteger(0);
     Session userSession = null;
 
-    public WebsocketHandle() throws URISyntaxException {
+    public WebsocketHandle2() throws URISyntaxException {
         try {
             WebSocketContainer container = ContainerProvider.getWebSocketContainer();
             container.connectToServer(this, endpointURI);

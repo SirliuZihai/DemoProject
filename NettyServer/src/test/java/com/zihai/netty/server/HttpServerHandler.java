@@ -33,8 +33,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         }
         logger.info("content {}",convertByteBufToString(req.content()));
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,HttpResponseStatus.OK);
-        response.headers().add("Content-Type","application-json");
-        response.content().writeBytes("hello, 我是服务器".getBytes());
+        response.headers().add("Content-Type","text/html");
+        response.headers().add("Charset","utf-8");
+        response.content().writeCharSequence("hello, 我是服务器",CharsetUtil.UTF_8);
         //ByteBuf buf2 = Unpooled.copiedBuffer(new StringBuffer("好男人"),Charset.defaultCharset());
         //buf2.release();
         ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
