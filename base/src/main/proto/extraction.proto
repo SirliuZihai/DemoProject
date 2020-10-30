@@ -15,4 +15,5 @@ message Parent{
     string name = 1;
     int32 age = 2;
     string like = 3;
+    bytes fsfd = 4;
 }

@@ -4,7 +4,6 @@ import com.lmax.disruptor.EventTranslatorOneArg;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.util.DaemonThreadFactory;
-import com.zihai.proto.entity.People;
 
 import java.nio.ByteBuffer;
 

@@ -1,7 +1,7 @@
 package com.zihai.netty.server;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.zihai.proto.entity.People;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -13,9 +13,10 @@ public class TestServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("channelRead");
         try {
             People.Parent p= (People.Parent)msg;
+            People.Son son = People.Son.parseFrom(p.getSon());
             People.Son.Builder s = People.Son.newBuilder();
-            s.setAge(p.getAge());
-            s.setName(p.getName());
+            s.setAge(son.getAge());
+            s.setName(son.getName());
             ctx.writeAndFlush(s.build());
            /* ByteBuf buf = (ByteBuf) msg;
             byte[] array = new byte[buf.readableBytes()];
@@ -25,6 +26,8 @@ public class TestServerHandler extends ChannelInboundHandlerAdapter {
             ByteBuf encoded = ctx.alloc().buffer(length);
             encoded.writeBytes(part.getName().getBytes());
             ctx.writeAndFlush(encoded);*/
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
         } finally {
             ReferenceCountUtil.release(msg);
         }

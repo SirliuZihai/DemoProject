@@ -1,8 +1,5 @@
-import com.google.gson.Gson;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.util.JsonFormat;
 import com.zihai.proto.entity.People;
-import com.zihai.proto.entity.People.Parent;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -16,9 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ProtoTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtoTest.class);
 
@@ -26,25 +20,16 @@ public class ProtoTest {
     private static int port = 8080;
     private static ChannelHandlerContext ctx2 = null;
     public static void main(String[] args) throws InvalidProtocolBufferException {
-        Map<String,Object> data = new HashMap<>();
-        data.put("name","龙且");
-        data.put("age",12);
-        data.put("like","独行");
-        String obj = new Gson().toJson(data);
-        Parent.Builder builder = Parent.newBuilder();
-        JsonFormat.parser().merge(obj, builder);
-        Parent parent = builder.build();
-        LOGGER.info( JsonFormat.printer().print(parent));
-        byte[] bytes = parent.toByteArray();
-        Parent part = Parent.parseFrom(bytes);
-        System.out.println(part.getName());
+        People.Son son = People.Son.newBuilder().setAge(23).setName("小兵").build();
+        People.Parent parent = People.Parent.newBuilder()
+                .setAge(11).setName("龙且").setLike("喜好").setSon(son.toByteString()).build();
         Thread thread = new Thread(){
             @Override
             public void run() {
                 try {
                     Thread.sleep(4000);
                     Assert.notNull(ctx2,"ctx2 is null");
-                    ctx2.writeAndFlush(part);
+                    ctx2.writeAndFlush(parent);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
