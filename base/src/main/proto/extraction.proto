@@ -17,3 +17,7 @@ message Parent{
     string like = 3;
     bytes fsfd = 4;
 }
+
+enum methodCode{
+    saveVisitor = 0;
+}

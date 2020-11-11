@@ -19,7 +19,7 @@ public class WebsocketHandle2 {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketHandle2.class);
     @Autowired
     private TaskBean taskBean;
-    private URI endpointURI = new URI("ws://localhost/test");
+    private URI endpointURI = new URI("ws://localhost:8987/test");
     private AtomicInteger count =new AtomicInteger(0);
     Session userSession = null;
 

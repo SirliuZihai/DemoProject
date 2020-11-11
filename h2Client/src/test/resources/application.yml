@@ -9,3 +9,6 @@ spring:
       database: 0
     one:
       database: 1
+file:
+    root: /opt/java
+    picPath: ${file.root}/picture

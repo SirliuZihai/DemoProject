@@ -1,4 +1,6 @@
+import com.google.gson.Gson;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.util.JsonFormat;
 import com.zihai.proto.entity.People;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -23,6 +25,8 @@ public class ProtoTest {
         People.Son son = People.Son.newBuilder().setAge(23).setName("小兵").build();
         People.Parent parent = People.Parent.newBuilder()
                 .setAge(11).setName("龙且").setLike("喜好").setSon(son.toByteString()).build();
+        LOGGER.info(new Gson().toJson(parent));
+        JsonFormat.parser().merge("json", People.Parent.newBuilder());
         Thread thread = new Thread(){
             @Override
             public void run() {
