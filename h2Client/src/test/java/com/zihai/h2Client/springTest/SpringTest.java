@@ -16,8 +16,11 @@ public class SpringTest {
     @Value("${file.picPath}")
     private String picPath;
 
+    @Value("${test.arg}")
+    private String arg;
+
     @Test
     public void test(){
-        System.out.println(picPath);
+        System.out.println(arg);
     }
 }

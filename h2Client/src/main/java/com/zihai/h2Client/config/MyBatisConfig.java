@@ -20,9 +20,9 @@ import javax.sql.DataSource;
 /**
  * @author Carter
  */
-@Configuration
+//@Configuration
 // 加上这个注解，使得支持事务
-@EnableTransactionManagement
+//@EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 	private final static Logger logger = LoggerFactory.getLogger(MyBatisConfig.class);
 	
