@@ -1,9 +1,11 @@
 package com.zihai.h2Client.aspect;
 
 import com.google.gson.JsonObject;
+import com.zihai.h2Client.dto.BusinessException;
 import com.zihai.h2Client.util.JsValidate;
 import com.zihai.h2Client.util.JsonHelp;
 import com.zihai.h2Client.util.MyHttpServletRequestWrapper;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,19 @@ import java.util.Enumeration;
 @Component
 public class ApiFilter implements Filter {
     private static Logger logger = LoggerFactory.getLogger(ApiFilter.class);
+    private static JsonObject validate_map;
+
+    static {
+        InputStream in = null;
+        try {
+            in = new ClassPathResource("validate/iim_validate.json").getInputStream();
+            String str = IOUtils.toString(in,StandardCharsets.UTF_8);
+            validate_map = JsonHelp.gson.fromJson(str,JsonObject.class);
+        } catch (IOException e) {
+            throw new BusinessException(e.getMessage());
+        }
+
+    }
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -42,7 +57,7 @@ public class ApiFilter implements Filter {
         MyHttpServletRequestWrapper requestWrapper = new MyHttpServletRequestWrapper(res);
 
         //参数校验
-        if(StringUtils.isEmpty(requestWrapper.getBodyStr())){
+        if(requestWrapper.getBody() == null||requestWrapper.getBody().length ==0 ||StringUtils.isEmpty(requestWrapper.getBodyStr())){
             JsonObject obj = new JsonObject();
             Enumeration<String> enumeration =  res.getParameterNames();
             while (enumeration.hasMoreElements()){
@@ -51,22 +66,23 @@ public class ApiFilter implements Filter {
             }
             requestWrapper.setBody(obj.toString().getBytes());
         }
-        InputStream in = new ClassPathResource("validate/iim_validate.json").getInputStream();
-        byte[] bytes = new byte[in.available()];
-        in.read(bytes);
-        String str = new String(bytes, StandardCharsets.UTF_8);
-        JsonObject map = JsonHelp.gson.fromJson(str,JsonObject.class);
-        if(map.get(res.getServletPath()).getAsString()!=null){
+        //打印入参
+        if(!res.getServletPath().contains("/file/upload")){
+            logger.info("reqUrl=={},requestBody=={}",res.getServletPath(),requestWrapper.getBodyStr());
+        }
+
+        if(validate_map.get(res.getServletPath())!=null){
             try {
-                String result = (String) JsValidate.engine.invokeFunction(map.get(res.getServletPath()).getAsString(), requestWrapper.getBodyStr());
+                String result = (String) JsValidate.engine.invokeFunction(validate_map.get(res.getServletPath()).getAsString(), requestWrapper.getBodyStr());
                 if(JsonHelp.gson.fromJson(result,JsonObject.class).get("code").getAsInt() != 1){
                     resp.getOutputStream().write(result.getBytes());
                     return;
                 }
             } catch (NoSuchMethodException e) {
-                throw new RuntimeException("校验异常,校验方法不存在");
+                throw new BusinessException("校验异常,校验方法不存在");
             } catch (ScriptException e) {
-                throw new RuntimeException("js校验脚本异常");
+                logger.error(e.getMessage(),e);
+                throw new BusinessException("js校验脚本异常 error="+e.getMessage());
             }
         }
         // 白名单 no login
@@ -76,6 +92,8 @@ public class ApiFilter implements Filter {
                 return;
             }
         }
+
+        //res.setAttribute("curUser",user);
         chain.doFilter(requestWrapper, resp);
     }
 
@@ -84,10 +102,10 @@ public class ApiFilter implements Filter {
 
     }
 
-    public static Object getCurrentUser(){
+    /*public static User getCurrentUser(){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
-        return request.getAttribute("curUser");
-    }
+        return (User)request.getAttribute("curUser");
+    }*/
 
 }

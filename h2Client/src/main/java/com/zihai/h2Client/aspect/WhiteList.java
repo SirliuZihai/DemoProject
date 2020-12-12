@@ -8,5 +8,6 @@ public class WhiteList {
     static {
         whiteMap.put("/user/login", "登录");
         whiteMap.put("/file/upload","上传文件");
+        whiteMap.put("/public","公共接口");
     }
 }
