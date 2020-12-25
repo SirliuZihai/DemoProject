@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 @Component
-@EnableAsync
 @EnableScheduling
 public class InternalTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(InternalTask.class);
