@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
  * websocket server
  */
 @Component("webSocketChatServer")
-public class WebSocketChatServer {
+public class WebSocketChatServer implements DisposableBean {
 
     private Logger logger = LoggerFactory.getLogger(WebSocketChatServer.class);
 
@@ -30,23 +31,13 @@ public class WebSocketChatServer {
     private ChannelFuture channelFuture;
 
     public void start() throws Exception {
-        try {
-            ServerBootstrap b = new ServerBootstrap()
-                    .group(bossGroup, workGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .childHandler(serverInitializer);
+        ServerBootstrap b = new ServerBootstrap()
+                .group(bossGroup, workGroup)
+                .channel(NioServerSocketChannel.class)
+                .childHandler(serverInitializer);
 
-            logger.info("Starting WebSocketChatServer... Port: " + port);
-
-            channelFuture = b.bind(port).sync();
-        } finally {
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                @Override
-                public void run() {
-                    shutdown();
-                }
-            });
-        }
+        logger.info("Starting WebSocketChatServer... Port: " + port);
+        channelFuture = b.bind(port).sync();
     }
 
     public void restart() throws Exception {
@@ -55,6 +46,7 @@ public class WebSocketChatServer {
     }
 
     public void shutdown() {
+        logger.info("go shutdown");
         if (channelFuture != null) {
             channelFuture.channel().close().syncUninterruptibly();
         }
@@ -66,4 +58,8 @@ public class WebSocketChatServer {
         }
     }
 
+    @Override
+    public void destroy() throws Exception {
+        shutdown();
+    }
 }

@@ -1,4 +1,4 @@
-package com.ziahi.util;
+package com.zihai.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

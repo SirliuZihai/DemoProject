@@ -9,7 +9,7 @@ Configuration:
       - name: log.level.console
         value: info
       - name: log.path
-        value: log
+        value: /opt/java/logs
       - name: project.name
         value: NettyServer
       - name: log.pattern
