@@ -28,10 +28,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -42,26 +38,40 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- dubbo的依赖 -->
         <dependency>
-           <groupId>org.apache.zookeeper</groupId>
-           <artifactId>zookeeper</artifactId>
-           <version>3.4.8</version>
-            <scope>test</scope>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>2.7.6</version>
             <exclusions>
                 <exclusion>
-                    <artifactId>jline</artifactId>
-                    <groupId>jline</groupId>
+                    <artifactId>gson</artifactId>
+                    <groupId>com.google.code.gson</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>netty</artifactId>
+                    <artifactId>netty-all</artifactId>
                     <groupId>io.netty</groupId>
                 </exclusion>
             </exclusions>
-            <optional>true</optional>
+        </dependency>
+        <!-- zk的依赖 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <version>2.7.6</version>
+            <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.4.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

@@ -1,13 +1,13 @@
 package com.zihai;
 
 import com.zihai.websocket.netty.WebSocketChatServer;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 /**
  **  程序入口
  */
+@EnableDubbo
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan("com.zihai")

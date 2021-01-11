@@ -64,10 +64,3 @@ Configuration:
       AppenderRef:
         - ref: CONSOLE
         - ref: ROLLING_FILE
-    Logger:
-      - name: platform  #com.zihai
-        level: info
-        additivity: false
-        AppenderRef:
-          - ref: CONSOLE
-          - ref: PLATFORM_ROLLING_FILE

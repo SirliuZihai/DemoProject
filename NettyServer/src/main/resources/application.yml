@@ -6,19 +6,18 @@ server:
 logging:
   config: classpath:log4j2.yml
 #
-spring:
+dubbo:
   application:
-    name: nett_server
-  dubbo:
-    protocol:
-      name: dubbo
-      port: 20801
-    consumer:
-      check: false
-      timeout: 5000
-      retries: 0
-    registry:
-      address: zookeeper://127.0.0.1:2181
+    name: nett-server
+  protocol:
+    name: dubbo
+    port: 20801
+  consumer:
+    check: false
+    timeout: 5000
+    retries: 0
+  registry:
+    address: zookeeper://127.0.0.1:2181
   profiles:
     active: dev
 #  redis:
