@@ -9,16 +9,7 @@ import java.io.IOException;
 
 public class Test {
     public static void main(String[] args) {
-        OkHttpClient httpclient = new OkHttpClient();
-        Request request =new Request.Builder()
-                .url("http://localhost:8080/fass")
-                .method("GET",null)
-                .build();
-        try {
-            Response resonse = httpclient.newCall(request).execute();
-            System.out.println(resonse.body().string());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       String s = "[{\"fieldId\":0,\"fieldName\":\"来访事由\",\"fieldType\":0,\"fieldValue\":\"维修设备\",\"isMandatory\":true,\"isSelected\":true,\"type\":0}]";
+       System.out.println(s);
     }
 }

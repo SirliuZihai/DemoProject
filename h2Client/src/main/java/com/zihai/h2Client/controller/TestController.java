@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.zihai.h2Client.dto.TestDto;
 import com.zihai.h2Client.service.TestService;
-import org.apache.commons.codec.CharEncoding;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.CharsetDecoder;
 import java.util.Base64;
 import java.util.List;
 
@@ -38,9 +32,9 @@ public class TestController {
 
 
     @RequestMapping(value = "testPost",method = RequestMethod.POST)
-    public String testPost(TestDto dto){
+    public TestDto testPost(@RequestBody TestDto dto){
         LOGGER.info("testPost"+name+age);
-        return "testPost"+dto.getName()+dto.getAge();
+        return dto;
     }
     @RequestMapping("getVisitor")
     public List getVisitor(){

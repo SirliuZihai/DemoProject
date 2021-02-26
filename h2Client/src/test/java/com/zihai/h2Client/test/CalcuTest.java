@@ -1,18 +1,16 @@
 package com.zihai.h2Client.test;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
-import static java.time.LocalDateTime.now;
-
 public class CalcuTest {
     public static void main(String[] args) {
+        System.out.println(LocalDate.now().toString());
         DateTimeFormatter sf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime startTime = LocalDateTime.parse("2020-05-01 00:00:00", sf);
         LocalDateTime endTime = LocalDateTime.parse("2020-05-02 23:30:00", sf);
