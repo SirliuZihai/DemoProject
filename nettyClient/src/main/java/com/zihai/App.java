@@ -11,6 +11,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan("com.zihai")
+//@EnableScheduling
+@EnableAsync
 public class App {
     public static void main(String[] args) {
             SpringApplication.run(App.class, args);

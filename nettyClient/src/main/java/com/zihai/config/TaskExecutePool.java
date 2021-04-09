@@ -15,7 +15,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  *
  */
 @Configuration
-@EnableAsync
 public class TaskExecutePool {
 	@Bean
 	public TaskExecutor taskExecutor() {

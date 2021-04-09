@@ -1,6 +1,7 @@
 package com.zihai.h2Client.test;
 
 
+import com.zihai.h2Client.util.JsonHelp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
@@ -29,6 +31,19 @@ public class RedisTest {
 
     @Resource(name="redisOneTemplate")
     private RedisTemplate<String,Integer> redisTemplate;
+
+    @Resource(name="redisOneTemplate")
+    private RedisTemplate<String,String> redisTemplate2;
+
+    @Test
+    public void doTestList(){
+        redisTemplate2.opsForList().leftPush("mysn","1");
+        Long l = redisTemplate2.opsForList().leftPush("mysn","2");
+        LOGGER.info("the num == {}",l);
+        List list = redisTemplate2.opsForList().range("mysn",0,20);
+        LOGGER.info(JsonHelp.gson.toJson(list));
+    }
+
 
     @Test
     public void doTest() throws InterruptedException {
