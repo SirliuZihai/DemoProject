@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class App {
     public static Logger logger = LoggerFactory.getLogger(App.class);
     public static void main(String[] args) {
-        SpringApplication.run(App.class, args);
+       SpringApplication.run(App.class, args);
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
-                logger.info("do hook");
+                logger.info("do hook");;
             }
         }));
         logger.info("App Started");

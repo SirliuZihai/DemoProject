@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.zihai.h2Client.dto.TestDto;
 import com.zihai.h2Client.service.TestService;
+import com.zihai.h2Client.util.SpringBeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.SpringApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,10 +63,18 @@ public class TestController {
         String imag = new Gson().fromJson(object,JsonObject.class).get("capture_img").getAsString();
         new FileOutputStream("D:\\out.jpg").write(Base64.getDecoder().decode(imag));
     }
-    @RequestMapping("apitest2")
-    public String apitest(@RequestParam String info) throws IOException {
+    @GetMapping("apitest2")
+    public String apitest(@RequestParam String info) throws InterruptedException {
         LOGGER.info(info);
-        //LOGGER.info("age=="+age);
+        Thread.sleep(100);
+        LOGGER.info("apitest2 end");
         return info;
+    }
+
+    @GetMapping("stopWeb")
+    public void stopWeb(){
+        LOGGER.info("begin stop");
+        SpringApplication.exit(SpringBeanUtil.getApplicationContext());
+        LOGGER.info("end stop");
     }
 }
