@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
 import java.io.File;
 
 @Component
@@ -35,5 +36,10 @@ public class TestFilter  implements ApplicationContextAware,CommandLineRunner {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    @PreDestroy
+    public void destroy() throws Exception {
+        monitor.stop();
     }
 }
