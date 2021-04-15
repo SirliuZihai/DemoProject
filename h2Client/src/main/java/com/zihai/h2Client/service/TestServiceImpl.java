@@ -2,6 +2,7 @@ package com.zihai.h2Client.service;
 
 import com.google.gson.Gson;
 import com.zihai.h2Client.controller.TestController;
+import com.zihai.h2Client.dao.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
-@Transactional
+
 @Service
 public class TestServiceImpl implements TestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -27,4 +31,18 @@ public class TestServiceImpl implements TestService {
         throw new RuntimeException("sf");
         //return jdbcTemplate.queryForList("select  * from visitor where name = 'LYZ'");
     }
+
+    @Override
+    public String testSql() {
+        return userMapper.selectTest();
+    }
+
+    @Override
+    @Transactional
+    public void updateTest() {
+        userMapper.updateTest();
+        LOGGER.info("now userName = {}",userMapper.selectTest());
+        throw new RuntimeException();
+    }
+
 }

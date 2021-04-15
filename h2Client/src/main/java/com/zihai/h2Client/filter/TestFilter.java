@@ -24,7 +24,7 @@ public class TestFilter  implements ApplicationContextAware,CommandLineRunner {
     private FileAlterationMonitor monitor = new FileAlterationMonitor(1000L);
     @Override
     public void run(String... args) throws Exception {
-        logger.info(this.getClass().getSimpleName()+"runing………………");
+        logger.info(this.getClass().getSimpleName()+" runing………………");
         String path = getClass().getClassLoader().getResource("").getPath()+"/";
         logger.info(path);
         FileAlterationObserver observer = new FileAlterationObserver(new File(path));
@@ -39,7 +39,14 @@ public class TestFilter  implements ApplicationContextAware,CommandLineRunner {
     }
 
     @PreDestroy
-    public void destroy() throws Exception {
+    public void destroy1() throws Exception {
+        logger.info("desctroy monitor");
         monitor.stop();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        logger.info("finalize TestFilter");
+        super.finalize();
     }
 }

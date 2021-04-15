@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zihai.h2Client.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.zihai.h2Client.dto.TestDto">
+    </resultMap>
+
+    <select id="selectTest"  resultType="java.lang.String">
+        select  USE_NAME from USER WHERE USE_ID = 3
+    </select>
+    <update id="updateTest">
+        update  USER SET USE_NAME ='王五' WHERE USE_ID = 3
+    </update>
+</mapper>

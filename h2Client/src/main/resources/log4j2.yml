@@ -12,7 +12,7 @@ Configuration:
       - name: project.name
         value: h2Client
       - name: log.pattern
-        value: "%d %p [%F] [%c.%M] <%L> - %m%n"
+        value: "%d %p [%t] [%F] [%c.%M] <%L> - %m%n"
         #"%d{yyyy-MM-dd HH:mm:ss.SSS} -%5p ${PID:-} [%15.15t] %-30.30C{1.} : %m%n"
 
   Appenders:

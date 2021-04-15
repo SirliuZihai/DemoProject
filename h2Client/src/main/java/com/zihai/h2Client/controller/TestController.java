@@ -1,21 +1,20 @@
 package com.zihai.h2Client.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.zihai.h2Client.Listener.NetWorkEvent;
 import com.zihai.h2Client.dto.TestDto;
 import com.zihai.h2Client.service.TestService;
+import com.zihai.h2Client.util.Constant;
 import com.zihai.h2Client.util.SpringBeanUtil;
+import com.zihai.spi.factory.SpiFactory;
+import com.zihai.spi.service.SpiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -41,7 +40,6 @@ public class TestController {
     @RequestMapping("getVisitor")
     public List getVisitor(){
         LOGGER.info(name+age);
-
         try {
             return testService.doSomething();
         } catch (Exception e) {
@@ -58,23 +56,32 @@ public class TestController {
         jdbcTemplate.execute("INSERT INTO USER (USE_ID,USE_NAME,USE_SEX,USE_AGE,USE_ID_NO,USE_PHONE_NUM,USE_EMAIL,CREATE_TIME,MODIFY_TIME,USE_STATE) VALUES(4,'孙四','2',24,'142323198610051237','12345678912','qe259@165.com',sysdate,sysdate,'0')");
         return "sucess";
     }
-    @RequestMapping("attendance-record")
-    public void getVipTest(@RequestBody String object) throws IOException {
-        String imag = new Gson().fromJson(object,JsonObject.class).get("capture_img").getAsString();
-        new FileOutputStream("D:\\out.jpg").write(Base64.getDecoder().decode(imag));
+    @GetMapping("testSql")
+    public String testSql(@RequestBody String object) throws IOException {
+        return testService.testSql();
+    }
+    @GetMapping("refresh")
+    public String refresh(@RequestBody String object) throws IOException {
+        try {
+            testService.updateTest();
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
+        }
+        return SpiFactory.getService().getName();
     }
     @GetMapping("apitest2")
     public String apitest(@RequestParam String info) throws InterruptedException {
         LOGGER.info(info);
-        Thread.sleep(100);
+        Thread.sleep(10000);
         LOGGER.info("apitest2 end");
         return info;
     }
 
     @GetMapping("stopWeb")
-    public void stopWeb(){
+    public String stopWeb(){
         LOGGER.info("begin stop");
-        SpringApplication.exit(SpringBeanUtil.getApplicationContext());
+        SpringBeanUtil.getApplicationContext().publishEvent(new NetWorkEvent(Constant.LISTENER_EVENT_TYPE.STOP));
         LOGGER.info("end stop");
+        return "shutdown ok";
     }
 }

@@ -4,4 +4,8 @@ import java.util.List;
 
 public interface TestService {
     List doSomething();
+
+    String testSql();
+
+    void updateTest();
 }

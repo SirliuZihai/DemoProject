@@ -26,7 +26,7 @@
         </javaTypeResolver>
 
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="com.iim.ros.core.entity"
+        <javaModelGenerator targetPackage="com.zihai.h2Client.core.entity"
                             targetProject="${project_core}" >
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->
             <property name="enableSubPackages" value="false"/>
@@ -42,7 +42,7 @@
         </sqlMapGenerator>
 
         <!-- 生成mapxml对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="com.iim.ros.logic.dao"
+        <javaClientGenerator targetPackage="com.zihai.h2Client.dao"
                              targetProject="${project}" type="XMLMAPPER" >
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->
             <property name="enableSubPackages" value="false" />
@@ -50,8 +50,8 @@
 
         <!-- 配置表信息，这里没生成一张表，这里需要改变一次对应表名 -->
 
-        <table schema="public" tableName="consult_item" mapperName="ConsultItemMapper"
-               domainObjectName="ConsultItem"
+        <table schema="public" tableName="USER" mapperName="UserMapper"
+               domainObjectName="User"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false"/>
     </context>
