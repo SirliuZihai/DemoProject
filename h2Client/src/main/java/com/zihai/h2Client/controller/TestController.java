@@ -6,6 +6,7 @@ import com.zihai.h2Client.service.TestService;
 import com.zihai.h2Client.util.Constant;
 import com.zihai.h2Client.util.SpringBeanUtil;
 import com.zihai.spi.factory.SpiFactory;
+import com.zihai.spi.service.ExtendService;
 import com.zihai.spi.service.SpiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,10 @@ public class TestController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
+    @Autowired
+    private SpiService spiService;
+    @Autowired
+    private ExtendService extendService;
     @Autowired
     private TestService testService;
     @Value("${name}")
@@ -67,7 +71,8 @@ public class TestController {
         }catch (Exception e){
             LOGGER.error(e.getMessage());
         }
-        return SpiFactory.getService().getName();
+        //return SpiFactory.getService().getName();
+        return spiService.getName()+"  " + extendService.getLogo();
     }
     @GetMapping("apitest2")
     public String apitest(@RequestParam String info) throws InterruptedException {

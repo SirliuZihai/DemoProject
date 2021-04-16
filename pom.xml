@@ -10,6 +10,7 @@
     <version>1.0</version>
     <modules>
         <module>base</module>
+        <module>spi</module>
         <module>h2Client</module>
         <module>NettyServer</module>
         <module>nettyClient</module>

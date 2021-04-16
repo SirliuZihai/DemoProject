@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.zihai.spi.service.impl.SpiServiceImpl,\
+com.zihai.spi.service.impl.ExtendServiceImpl
