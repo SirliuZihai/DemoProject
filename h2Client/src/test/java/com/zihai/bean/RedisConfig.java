@@ -11,7 +11,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.JedisPoolConfig;
 
-@Configuration
+//@Configuration
 public class RedisConfig {
     //order
     @Value("${spring.redis.host}")

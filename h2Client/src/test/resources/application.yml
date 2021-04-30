@@ -5,6 +5,8 @@ spring:
     host: 127.0.0.1
     port: 6379
     password:
+    pool:
+      max-active: 11
     zero:
       database: 0
     one:

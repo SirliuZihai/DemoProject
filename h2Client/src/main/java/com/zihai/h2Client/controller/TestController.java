@@ -5,7 +5,6 @@ import com.zihai.h2Client.dto.TestDto;
 import com.zihai.h2Client.service.TestService;
 import com.zihai.h2Client.util.Constant;
 import com.zihai.h2Client.util.SpringBeanUtil;
-import com.zihai.spi.factory.SpiFactory;
 import com.zihai.spi.service.ExtendService;
 import com.zihai.spi.service.SpiService;
 import org.slf4j.Logger;
