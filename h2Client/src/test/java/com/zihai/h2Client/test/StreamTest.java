@@ -1,13 +1,12 @@
 package com.zihai.h2Client.test;
 
+import com.zihai.dto.People;
 import com.zihai.h2Client.util.JsonHelp;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 public class StreamTest {
@@ -24,26 +23,4 @@ public class StreamTest {
 
     }
 }
-class People{
-   private String name;
-   private int age;
-    public People(String name,int age){
-        this.age = age;
-        this.name = name;
-    }
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-}

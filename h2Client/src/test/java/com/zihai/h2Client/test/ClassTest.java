@@ -1,5 +1,9 @@
 package com.zihai.h2Client.test;
 
+import com.zihai.dto.People;
+import com.zihai.h2Client.util.JsonHelp;
+import org.junit.Test;
+
 public class ClassTest {
     public static int age = 33;
     public static final Object object = new Object();
@@ -39,6 +43,13 @@ public class ClassTest {
             }
         }
 
+
+    }
+
+    @Test
+    public void doTest(){
+        String s = JsonHelp.gson.toJson(new People(null,23));
+        System.out.println(s);
 
     }
 }

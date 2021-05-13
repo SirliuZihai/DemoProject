@@ -1,6 +1,7 @@
 package com.zihai.h2Client.test;
 
 
+import com.zihai.dto.People;
 import com.zihai.h2Client.util.JsonHelp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisCallback;
@@ -34,6 +34,8 @@ public class RedisTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisTest.class);
     @Autowired
     private RedisTemplate<String, String> redisTemplate1;
+    @Autowired
+    private People people;
 
     //@Resource(name="redisOneTemplate")
     private RedisTemplate<String, Integer> redisTemplate;
@@ -93,11 +95,10 @@ public class RedisTest {
 
     @Test
     public void doTestScan(){
+
         Set<Object> execute = redisTemplate1.execute(new RedisCallback<Set<Object>>() {
-
             @Override
-            public Set<Object> doInRedis(RedisConnection connection) throws DataAccessException {
-
+            public Set<Object> doInRedis(RedisConnection connection){
                 Set<Object> binaryKeys = new HashSet<>();
                 Cursor<byte[]> cursor = connection.scan( new ScanOptions.ScanOptionsBuilder().match("num99*").count(10).build());
                 while (cursor.hasNext()) {
@@ -140,6 +141,10 @@ public class RedisTest {
         latch.await();
     }
 
+    @Test
+    public void doTestBean(){
+        System.out.println(people.getName()+" "+people.getAge());
+    }
     public static void main(String[] args) {
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxTotal(5);

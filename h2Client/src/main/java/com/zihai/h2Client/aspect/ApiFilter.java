@@ -8,13 +8,9 @@ import com.zihai.h2Client.util.MyHttpServletRequestWrapper;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.script.ScriptException;
 import javax.servlet.*;
@@ -41,9 +37,6 @@ public class ApiFilter implements Filter {
         }
 
     }
-
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
