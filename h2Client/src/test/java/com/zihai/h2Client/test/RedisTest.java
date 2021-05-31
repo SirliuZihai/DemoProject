@@ -21,10 +21,13 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
@@ -33,15 +36,18 @@ import java.util.concurrent.CountDownLatch;
 public class RedisTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisTest.class);
     @Autowired
-    private RedisTemplate<String, String> redisTemplate1;
+    private RedisTemplate<String,String> redisTemplate1;
     @Autowired
     private People people;
 
-    //@Resource(name="redisOneTemplate")
+    @Resource(name="redisOneTemplate")
     private RedisTemplate<String, Integer> redisTemplate;
 
-    //@Resource(name="redisOneTemplate")
+    @Resource(name="redisOneTemplate")
     private RedisTemplate<String, String> redisTemplate2;
+
+    @Resource(name="redisOneTemplate")
+    private RedisTemplate<String, BigDecimal> redisTemplate3;
 
     @Test
     public void doTestList() {
@@ -50,6 +56,25 @@ public class RedisTest {
         LOGGER.info("the num == {}", l);
         List list = redisTemplate2.opsForList().range("mysn", 0, 20);
         LOGGER.info(JsonHelp.gson.toJson(list));
+    }
+    @Test
+    public void doTestTimeOut() throws InterruptedException {
+        LOGGER.info("the tempplate == "+ redisTemplate1.toString());
+        redisTemplate1.opsForValue().set("increTest","1",2,TimeUnit.SECONDS);
+        while (redisTemplate1.hasKey("increTest")){
+            Long count =redisTemplate1.opsForValue().increment("increTest", 1);
+            //redisTemplate1.opsForValue().getOperations().expire("increTest",2,TimeUnit.SECONDS);
+            System.out.println(count);
+            Thread.sleep(500);
+        }
+
+        /*redisTemplate3.opsForValue().set("testa",new BigDecimal(32), 1,TimeUnit.SECONDS);
+        redisTemplate3.opsForValue().set("testa",new BigDecimal(-100),0);
+        while (redisTemplate3.hasKey("testa")){
+            LOGGER.info(redisTemplate3.opsForValue().get("testa").toString());
+            Thread.sleep(200);
+        }
+        LOGGER.info("key is delete");*/
     }
 
     /**
