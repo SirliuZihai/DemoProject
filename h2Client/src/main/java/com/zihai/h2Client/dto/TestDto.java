@@ -2,12 +2,13 @@ package com.zihai.h2Client.dto;
 
 import com.zihai.h2Client.util.JsonHelp;
 
-import java.util.Map;
+import java.math.BigDecimal;
 
 public class TestDto {
     private Integer age;
     private String name;
     private String json;
+    private BigDecimal money;
 
     public Integer getAge() {
         return age;
@@ -29,8 +30,15 @@ public class TestDto {
         return json;
     }
 
-    public void setJson(Object json) {
-        System.out.println(json.getClass().getSimpleName());
-        this.json = JsonHelp.gson.toJson(json);
+    public void setJson(String json) {
+        this.json = json;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 }

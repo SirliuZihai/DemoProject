@@ -24,7 +24,7 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
 		try {
 			body = IOUtils.toByteArray(request.getReader(), StandardCharsets.UTF_8);
 		} catch (Exception e) {
-			logger.error("初始化MyHttpServletRequestWrapper异常：", e);
+			logger.error("初始化MyHttpServletRequestWrapper异常："+e.getMessage());
 		}
 
 	}

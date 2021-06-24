@@ -9,7 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -18,6 +21,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.JedisPoolConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class RedisConfig {
@@ -38,6 +44,12 @@ public class RedisConfig {
 
     @Value("${spring.redis.zero.database}")
     private int zero_database;
+//    @Value("${spring.redis.sentinel.nodes}")
+//    private String sentinelNodes;
+//    @Value("${spring.redis.nodes}")
+//    private String redisNodes;
+//    @Value("${spring.redis.sentinel.master}")
+//    private String master;
 
 
     private static final int MAX_IDLE = 2; //最大空闲连接数
@@ -46,8 +58,28 @@ public class RedisConfig {
 
 
     //配置工厂
-    public RedisConnectionFactory connectionFactory(String host, int port, String password, int maxIdle,
-                                                    int maxTotal, long maxWaitMillis, int index) {
+    public RedisConnectionFactory connectionFactory(String host, int port, String password,int index) {
+     /*   RedisSentinelConfiguration configuration = new RedisSentinelConfiguration();
+        String[] hosts = sentinelNodes.split(",");
+        for(String redisHost : hosts){
+            String[] item = redisHost.split(":");
+            String ip = item[0];
+            String port1 = item[1];
+            configuration.addSentinel(new RedisNode(ip, Integer.parseInt(port1)));
+        }
+        configuration.setMaster(master);*/
+
+       /* RedisClusterConfiguration config = new RedisClusterConfiguration();
+
+        String[] sub = redisNodes.split(",");
+        List<RedisNode> nodeList = new ArrayList<>(sub.length);
+        String[] tmp;
+        for (String s : sub) {
+            tmp = s.split(":");
+            nodeList.add(new RedisNode(tmp[0], Integer.valueOf(tmp[1])));
+        }
+        config.setClusterNodes(nodeList);*/
+
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.setHostName(host);
         jedisConnectionFactory.setPort(port);
@@ -60,18 +92,18 @@ public class RedisConfig {
             jedisConnectionFactory.setDatabase(index);
         }
 
-        jedisConnectionFactory.setPoolConfig(poolConfig(maxIdle, maxTotal, maxWaitMillis, false));
+        jedisConnectionFactory.setPoolConfig(poolConfig());
         jedisConnectionFactory.afterPropertiesSet();
         return jedisConnectionFactory;
     }
 
     //连接池配置
-    public JedisPoolConfig poolConfig(int maxIdle, int maxTotal, long maxWaitMillis, boolean testOnBorrow) {
+    public JedisPoolConfig poolConfig() {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxIdle(maxIdle);
-        poolConfig.setMaxTotal(maxTotal);
-        poolConfig.setMaxWaitMillis(maxWaitMillis);
-        poolConfig.setTestOnBorrow(testOnBorrow);
+        poolConfig.setMaxIdle(MAX_IDLE);
+        poolConfig.setMaxTotal(MAX_TOTAL);
+        poolConfig.setMaxWaitMillis(MAX_WAIT_MILLIS);
+        poolConfig.setTestOnBorrow(false);
         return poolConfig;
     }
 
@@ -80,8 +112,9 @@ public class RedisConfig {
     public RedisTemplate redisZeroTemplate() {
         RedisTemplate template = new RedisTemplate();
         template.setConnectionFactory(
-                connectionFactory(host, port, password, MAX_IDLE, MAX_TOTAL, MAX_WAIT_MILLIS, zero_database));
+                connectionFactory(host, port, password, zero_database));
         template.setValueSerializer(new StringRedisSerializer());
+        LOGGER.info("redisZeroTemplate=="+template.toString());
         return template;
     }
 
@@ -90,13 +123,15 @@ public class RedisConfig {
     public RedisTemplate redisOneTemplate() {
         RedisTemplate template = new RedisTemplate();
         template.setConnectionFactory(
-                connectionFactory(host, port, password, MAX_IDLE, MAX_TOTAL, MAX_WAIT_MILLIS, one_database));
-       /* Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+                connectionFactory(host, port, password, one_database));
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer);*/
+        template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.setKeySerializer(jackson2JsonRedisSerializer);
+        LOGGER.info("redisOneTemplate=="+template.toString());
         return template;
     }
     //替换默认原有的 name一定要写redisTemplate

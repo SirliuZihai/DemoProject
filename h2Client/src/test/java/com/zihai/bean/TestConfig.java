@@ -58,8 +58,8 @@ public class TestConfig {
         return jedisPoolConfig;
     }*/
    @Bean
-   public People getPeple(RedisTemplate<String,String> redisTemplate){
-       People p = new People("test",Integer.valueOf(redisTemplate.opsForValue().get("num9909")));
+   public People getPeple(RedisTemplate redisTemplate){
+       People p = new People("test",23);
        return p;
    }
 }

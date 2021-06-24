@@ -59,10 +59,4 @@ public class SpringTest {
         }
         countDownLatch.await();
     }
-    class Entity{
-       public Integer i;
-        Entity(int i){
-            this.i = i;
-        }
-    }
 }

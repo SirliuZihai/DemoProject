@@ -11,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.Cursor;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ScanOptions;
+import org.springframework.data.redis.core.*;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -23,10 +22,10 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
@@ -43,30 +42,80 @@ public class RedisTest {
     @Resource(name="redisOneTemplate")
     private RedisTemplate<String, Integer> redisTemplate;
 
-    @Resource(name="redisOneTemplate")
-    private RedisTemplate<String, String> redisTemplate2;
+    @Resource(name="redisTemplate")
+    private RedisTemplate redisTemplate2;
 
     @Resource(name="redisOneTemplate")
     private RedisTemplate<String, BigDecimal> redisTemplate3;
 
+    @Autowired
+    ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+
+    @Test
+    public void TestLock() throws InterruptedException {
+        CyclicBarrier barrier = new CyclicBarrier(2);
+        for(int j=0;j<2;j++){
+            threadPoolTaskExecutor.execute(()->{
+                        try {
+                            LOGGER.info("wating others");
+                            barrier.await();
+                            LOGGER.info("finish others");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (BrokenBarrierException e) {
+                            e.printStackTrace();
+                        }
+                        getLock("mylock");
+                        Integer i = redisTemplate.opsForValue().get("luck");
+                        if(i==null){
+                            redisTemplate.opsForValue().set("luck",1);
+                        }else {
+                            redisTemplate.opsForValue().set("luck",++i);
+                        }
+                        LOGGER.info(String.valueOf(redisTemplate.opsForValue().get("luck")));
+                        releaseLock("mylock");
+
+                //LOGGER.info(String.valueOf( setLock("luck")));
+            });
+        }
+        Thread.sleep(5000);
+        threadPoolTaskExecutor.shutdown();
+    }
+
+
     @Test
     public void doTestList() {
-        redisTemplate2.opsForList().leftPush("mysn", "1");
-        Long l = redisTemplate2.opsForList().leftPush("mysn", "2");
-        LOGGER.info("the num == {}", l);
-        List list = redisTemplate2.opsForList().range("mysn", 0, 20);
-        LOGGER.info(JsonHelp.gson.toJson(list));
+        //insert a object
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+        Collections.shuffle(list);
+        redisTemplate2.delete("mylist");
+        redisTemplate2.opsForList().rightPushAll("mylist",list);
+        List<String> result = redisTemplate2.opsForList().range("mylist",0,999);
+        System.out.println(result.toArray());
     }
+
     @Test
     public void doTestTimeOut() throws InterruptedException {
-        LOGGER.info("the tempplate == "+ redisTemplate1.toString());
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        redisTemplate2.delete("mylist");
+        redisTemplate2.opsForList().rightPushAll("mylist",list);
+        //redisTemplate2.expire("mylist")
+        /*LOGGER.info("the tempplate == "+ redisTemplate1.toString());
         redisTemplate1.opsForValue().set("increTest","1",2,TimeUnit.SECONDS);
         while (redisTemplate1.hasKey("increTest")){
             Long count =redisTemplate1.opsForValue().increment("increTest", 1);
             //redisTemplate1.opsForValue().getOperations().expire("increTest",2,TimeUnit.SECONDS);
             System.out.println(count);
             Thread.sleep(500);
-        }
+        }*/
 
         /*redisTemplate3.opsForValue().set("testa",new BigDecimal(32), 1,TimeUnit.SECONDS);
         redisTemplate3.opsForValue().set("testa",new BigDecimal(-100),0);
@@ -183,5 +232,32 @@ public class RedisTest {
         jedis.set("myname", "yizhi0");
         jedis.close();
         LOGGER.info(jedisPool.getResource().get("myname"));
+    }
+
+    private Boolean setLock(String lockKey) {
+        SessionCallback<Boolean> sessionCallback = new SessionCallback<Boolean>() {
+            List<Object> exec = null;
+            @Override
+            public Boolean execute(RedisOperations operations) throws DataAccessException {
+                operations.multi();
+                redisTemplate.opsForValue().setIfAbsent(lockKey,1);
+                redisTemplate.expire(lockKey,5, TimeUnit.SECONDS);
+                exec = operations.exec();
+                if(exec.size() > 0) {
+                    return (Boolean) exec.get(0);
+                }
+                return false;
+            }
+        };
+        return redisTemplate.execute(sessionCallback);
+    }
+
+    private void getLock(String lockKey){
+        for(;!setLock(lockKey);){
+            LOGGER.info("try lock————————");
+        }
+    }
+    private void releaseLock(String lockKey){
+        redisTemplate.delete(lockKey);
     }
 }

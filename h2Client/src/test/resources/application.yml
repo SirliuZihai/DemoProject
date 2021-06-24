@@ -5,12 +5,17 @@ spring:
     host: 127.0.0.1
     port: 6379
     password:
+    database: 4
     pool:
       max-active: 11
     zero:
       database: 0
     one:
       database: 1
+#    sentinel:
+#      master: mymaster
+#      nodes: 127.0.0.1:26379,127.0.0.1:26380
+#    nodes: 127.0.0.1:6379,127.0.0.1:6380
 file:
     root: /opt/java
     picPath: ${file.root}/picture

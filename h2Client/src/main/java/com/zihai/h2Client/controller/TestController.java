@@ -7,6 +7,8 @@ import com.zihai.h2Client.util.Constant;
 import com.zihai.h2Client.util.SpringBeanUtil;
 import com.zihai.spi.service.ExtendService;
 import com.zihai.spi.service.SpiService;
+import org.apache.commons.io.IOUtils;
+import org.beetl.core.lab.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -87,5 +92,26 @@ public class TestController {
         SpringBeanUtil.getApplicationContext().publishEvent(new NetWorkEvent(Constant.LISTENER_EVENT_TYPE.STOP));
         LOGGER.info("end stop");
         return "shutdown ok";
+    }
+
+    @GetMapping("converter")
+    public TestDto stopWeb2(){
+        TestDto dto = new TestDto();
+        dto.setMoney(new BigDecimal("1"));
+        return dto;
+    }
+    @PostMapping("getRsouce")
+    public void stopWeb2(HttpServletResponse response) throws UnsupportedEncodingException {
+        InputStream in = this.getClass().getClassLoader().getResourceAsStream("application.yml");
+        response.reset();
+        response.setContentType("application/octet-stream");
+        // 如果输出的是中文名的文件，在此处就要用URLEncoder.encode方法进行处理
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + URLEncoder.encode("配置文件.yml","GBK"));
+        try (OutputStream fileOut = response.getOutputStream()) {
+            fileOut.write(IOUtils.toByteArray(in));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
