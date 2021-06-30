@@ -21,7 +21,7 @@ public class TaskExecutePool {
 		// 设置核心线程数
 		executor.setCorePoolSize(2);
 		// 设置最大线程数
-		executor.setMaxPoolSize(5);
+		executor.setMaxPoolSize(10);
 		// 设置队列容量
 		executor.setQueueCapacity(1000);
 		// 设置线程活跃时间（秒）

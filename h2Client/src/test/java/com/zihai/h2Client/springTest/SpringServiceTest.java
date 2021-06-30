@@ -1,7 +1,7 @@
 package com.zihai.h2Client.springTest;
 
-import com.zihai.annotation.BusMethod;
-import com.zihai.annotation.BusService;
+import com.zihai.h2Client.annotation.BusMethod;
+import com.zihai.h2Client.annotation.BusService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.zihai.util.BeanScanUtil.scanClass;
+import static com.zihai.h2Client.util.BeanScanUtil.scanClass;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration

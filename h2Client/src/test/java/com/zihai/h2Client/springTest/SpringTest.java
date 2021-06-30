@@ -1,5 +1,10 @@
 package com.zihai.h2Client.springTest;
 
+import com.zihai.h2Client.core.entity.Oplog;
+import com.zihai.h2Client.core.entity.Product;
+import com.zihai.h2Client.dao.ds1.ProductMapper;
+import com.zihai.h2Client.dao.ds2.OplogMapper;
+import com.zihai.h2Client.util.JsonHelp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +22,24 @@ import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
-@ComponentScan("com.zihai")
+@ComponentScan("com.zihai.h2Client")
 @SpringBootTest
 public class SpringTest {
-
     @Value("${file.picPath}")
     private String picPath;
 
-    @Value("${test.arg}")
-    private String arg;
+    @Autowired
+    private OplogMapper oplogMapper;
+    @Autowired
+    private ProductMapper productMapper;
 
     @Test
     public void test(){
-        System.out.println(arg);
+        Oplog oplog = oplogMapper.selectByPrimaryKey(3101);
+        System.out.println(JsonHelp.gson.toJson(oplog));
+
+        Product product = productMapper.selectByPrimaryKey(1);
+        System.out.println(JsonHelp.gson.toJson(product));
     }
 
 

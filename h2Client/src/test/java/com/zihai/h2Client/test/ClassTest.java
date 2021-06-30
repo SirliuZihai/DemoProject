@@ -1,6 +1,6 @@
 package com.zihai.h2Client.test;
 
-import com.zihai.dto.People;
+import com.zihai.h2Client.dto.People;
 import com.zihai.h2Client.util.JsonHelp;
 import org.junit.Test;
 

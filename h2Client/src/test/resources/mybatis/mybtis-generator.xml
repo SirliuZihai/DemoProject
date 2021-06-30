@@ -50,8 +50,8 @@
 
         <!-- 配置表信息，这里没生成一张表，这里需要改变一次对应表名 -->
 
-        <table schema="public" tableName="USER" mapperName="UserMapper"
-               domainObjectName="User"
+        <table schema="public" tableName="oplog" mapperName="OplogMapper"
+               domainObjectName="Oplog"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false"/>
     </context>

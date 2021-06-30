@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Service
+//@Service
 public class TestServiceImpl implements TestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 

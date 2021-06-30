@@ -1,8 +1,7 @@
 package com.zihai.h2Client.test;
 
 
-import com.zihai.dto.People;
-import com.zihai.h2Client.util.JsonHelp;
+import com.zihai.h2Client.dto.People;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -54,6 +53,7 @@ public class RedisTest {
 
     @Test
     public void TestLock() throws InterruptedException {
+        redisTemplate.setEnableTransactionSupport(false);
         CyclicBarrier barrier = new CyclicBarrier(2);
         for(int j=0;j<2;j++){
             threadPoolTaskExecutor.execute(()->{
@@ -252,9 +252,16 @@ public class RedisTest {
         return redisTemplate.execute(sessionCallback);
     }
 
-    private void getLock(String lockKey){
+    private void getLock(String lockKey) {
+        long waitTime = 10l; //mil
         for(;!setLock(lockKey);){
             LOGGER.info("try lock————————");
+            try {
+                Thread.sleep(waitTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            waitTime = waitTime+10;
         }
     }
     private void releaseLock(String lockKey){

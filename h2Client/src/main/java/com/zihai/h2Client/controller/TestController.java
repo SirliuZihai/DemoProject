@@ -32,7 +32,7 @@ public class TestController {
     private SpiService spiService;
     @Autowired
     private ExtendService extendService;
-    @Autowired
+    //@Autowired
     private TestService testService;
     @Value("${name}")
     private String name;
