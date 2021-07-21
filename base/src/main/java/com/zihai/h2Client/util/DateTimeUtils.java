@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
 
 public class DateTimeUtils {
 	public static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -244,5 +245,16 @@ public class DateTimeUtils {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return LocalDate.parse(time, formatter);
 	}
-
+	/**
+	 * LocalDate转Date
+	 * @param localDate
+	 * @return
+	 */
+	public static Date localDate2Date(LocalDate localDate) {
+		if(null == localDate) {
+			return null;
+		}
+		ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+		return Date.from(zonedDateTime.toInstant());
+	}
 }

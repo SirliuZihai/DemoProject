@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -79,11 +80,14 @@ public class TestController {
         return spiService.getName()+"  " + extendService.getLogo();
     }
     @GetMapping("apitest2")
-    public String apitest(@RequestParam String info) throws InterruptedException {
-        LOGGER.info(info);
-        Thread.sleep(10000);
-        LOGGER.info("apitest2 end");
-        return info;
+    public Date apitest(@RequestParam Date start) throws InterruptedException {
+        LOGGER.info("start={}",start);
+        return start;
+    }
+    @PostMapping("apitest2")
+    public TestDto apitest2(@RequestBody TestDto testDto) throws InterruptedException {
+        LOGGER.info("start={}",testDto);
+        return testDto;
     }
 
     @GetMapping("stopWeb")

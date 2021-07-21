@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 public class ApolloMqtt3 {
     private static final Logger logger = LoggerFactory.getLogger(ApolloMqtt3.class);
 
-    private static String mqttUri ="tcp://192.168.1.153:61613";
+    private static String mqttUri ="tcp://localhost:61613";
     private static String clientId = "test003";
     private static int count = 0;
 

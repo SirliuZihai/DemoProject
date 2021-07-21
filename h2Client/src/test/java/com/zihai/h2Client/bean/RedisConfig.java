@@ -6,9 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
+import org.springframework.data.redis.connection.RedisClusterConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -17,6 +21,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.StringUtils;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.ArrayList;
+import java.util.List;
+@ConditionalOnProperty(prefix="spring.redis",name="enable",havingValue="true")
 @Configuration
 public class RedisConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisConfig.class);
@@ -38,8 +45,8 @@ public class RedisConfig {
     private int zero_database;
 //    @Value("${spring.redis.sentinel.nodes}")
 //    private String sentinelNodes;
-//    @Value("${spring.redis.nodes}")
-//    private String redisNodes;
+    @Value("${spring.redis.nodes}")
+    private String redisNodes;
 //    @Value("${spring.redis.sentinel.master}")
 //    private String master;
 
@@ -60,17 +67,6 @@ public class RedisConfig {
             configuration.addSentinel(new RedisNode(ip, Integer.parseInt(port1)));
         }
         configuration.setMaster(master);*/
-
-       /* RedisClusterConfiguration config = new RedisClusterConfiguration();
-
-        String[] sub = redisNodes.split(",");
-        List<RedisNode> nodeList = new ArrayList<>(sub.length);
-        String[] tmp;
-        for (String s : sub) {
-            tmp = s.split(":");
-            nodeList.add(new RedisNode(tmp[0], Integer.valueOf(tmp[1])));
-        }
-        config.setClusterNodes(nodeList);*/
 
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.setHostName(host);
@@ -97,6 +93,22 @@ public class RedisConfig {
         poolConfig.setMaxWaitMillis(MAX_WAIT_MILLIS);
         poolConfig.setTestOnBorrow(false);
         return poolConfig;
+    }
+    //------------------------------------
+    //@Bean(name = "redisClusterTemplate")
+    public RedisClusterConnection redisClusterConnection() {
+        RedisClusterConfiguration config = new RedisClusterConfiguration();
+        String[] sub = redisNodes.split(",");
+        List<RedisNode> nodeList = new ArrayList<>(sub.length);
+        String[] tmp;
+        for (String s : sub) {
+            tmp = s.split(":");
+            nodeList.add(new RedisNode(tmp[0], Integer.valueOf(tmp[1])));
+        }
+        config.setClusterNodes(nodeList);
+        JedisConnectionFactory factory = new JedisConnectionFactory(config,poolConfig());
+        factory.afterPropertiesSet();
+        return factory.getClusterConnection();
     }
 
     //------------------------------------

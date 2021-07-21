@@ -1,14 +1,14 @@
 package com.zihai.h2Client.dto;
 
-import com.zihai.h2Client.util.JsonHelp;
-
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class TestDto {
     private Integer age;
     private String name;
     private String json;
     private BigDecimal money;
+    private Date time;
 
     public Integer getAge() {
         return age;
@@ -40,5 +40,13 @@ public class TestDto {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 }

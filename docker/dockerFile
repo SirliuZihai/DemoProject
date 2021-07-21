@@ -1,0 +1,10 @@
+FROM java:8
+
+COPY /home/lyz/responsetory/ /responsetory
+COPY ../../../../soft/apache-maven-3.6.3 /usr/soft/apache-maven-3.6.3
+COPY ../../ /usr/project/DemoProject
+
+ENV MAVEN /user/soft/maven
+ENV PATH $PATH:$MAVEN/bin
+
+ENTRYPOINT ["cd","/usr/project/DemoProject","&&","mvn","surefire:test","-Dtest=com.zihai.h2Client.springTest.SpringTest#test","-DfailIfNoTests=false"]

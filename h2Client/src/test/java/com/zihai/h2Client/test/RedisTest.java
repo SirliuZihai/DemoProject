@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisClusterConnection;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.*;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -47,9 +48,17 @@ public class RedisTest {
     @Resource(name="redisOneTemplate")
     private RedisTemplate<String, BigDecimal> redisTemplate3;
 
+    //@Resource(name = "redisClusterTemplate")
+    private RedisClusterConnection redisClusterConnection;
+
     @Autowired
     ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
+    @Test
+    public void TestCluster(){
+        redisClusterConnection.set("liu".getBytes(),"程欣".getBytes());
+        System.out.println(new String(redisClusterConnection.get("liu".getBytes())));
+    }
 
     @Test
     public void TestLock() throws InterruptedException {
