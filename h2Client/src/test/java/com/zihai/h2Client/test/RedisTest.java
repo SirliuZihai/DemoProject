@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
-@ComponentScan("com.zihai")
+@ComponentScan("com.zihai.h2Client")
 @SpringBootTest
 public class RedisTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisTest.class);
@@ -39,16 +39,16 @@ public class RedisTest {
     @Autowired
     private People people;
 
-    @Resource(name="redisOneTemplate")
+    //@Resource(name="redisOneTemplate")
     private RedisTemplate<String, Integer> redisTemplate;
 
-    @Resource(name="redisTemplate")
+   // @Resource(name="redisTemplate")
     private RedisTemplate redisTemplate2;
 
-    @Resource(name="redisOneTemplate")
+    //@Resource(name="redisOneTemplate")
     private RedisTemplate<String, BigDecimal> redisTemplate3;
 
-    //@Resource(name = "redisClusterTemplate")
+    @Resource(name = "redisClusterTemplate")
     private RedisClusterConnection redisClusterConnection;
 
     @Autowired
@@ -56,6 +56,7 @@ public class RedisTest {
 
     @Test
     public void TestCluster(){
+        LOGGER.info("begingTestCluseter");
         redisClusterConnection.set("liu".getBytes(),"程欣".getBytes());
         System.out.println(new String(redisClusterConnection.get("liu".getBytes())));
     }

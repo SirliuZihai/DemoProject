@@ -12,8 +12,10 @@ spring:
       database: 0
     one:
       database: 1
-    nodes: 172.21.30.246:6387,172.21.30.246:6386,172.21.30.246:6385
-    enable: true
+    enable: false
+    cluster:
+      nodes: 172.18.0.8:6379
+      enable: true
 #    sentinel:
 #      master: mymaster
 #      nodes: 127.0.0.1:26379,127.0.0.1:26380

@@ -95,23 +95,6 @@ public class RedisConfig {
         return poolConfig;
     }
     //------------------------------------
-    //@Bean(name = "redisClusterTemplate")
-    public RedisClusterConnection redisClusterConnection() {
-        RedisClusterConfiguration config = new RedisClusterConfiguration();
-        String[] sub = redisNodes.split(",");
-        List<RedisNode> nodeList = new ArrayList<>(sub.length);
-        String[] tmp;
-        for (String s : sub) {
-            tmp = s.split(":");
-            nodeList.add(new RedisNode(tmp[0], Integer.valueOf(tmp[1])));
-        }
-        config.setClusterNodes(nodeList);
-        JedisConnectionFactory factory = new JedisConnectionFactory(config,poolConfig());
-        factory.afterPropertiesSet();
-        return factory.getClusterConnection();
-    }
-
-    //------------------------------------
     @Bean(name = "redisZeroTemplate")
     public RedisTemplate redisZeroTemplate() {
         RedisTemplate template = new RedisTemplate();

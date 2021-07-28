@@ -134,6 +134,8 @@
                 </dependencies>
                 <configuration>
                     <skipTests>false</skipTests>
+                    <test>com.zihai.h2Client.test.RedisTest#TestCluster</test>
+                    <failIfNoTests>false</failIfNoTests>
                 </configuration>
             </plugin>
         </plugins>
