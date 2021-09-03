@@ -1,12 +1,14 @@
 package com.zihai.h2Client.dto;
 
+import com.google.gson.JsonArray;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class TestDto {
     private Integer age;
     private String name;
-    private String json;
+    private JsonArray json;
     private BigDecimal money;
     private Date time;
 
@@ -26,11 +28,11 @@ public class TestDto {
         this.name = name;
     }
 
-    public String getJson() {
+    public JsonArray getJson() {
         return json;
     }
 
-    public void setJson(String json) {
+    public void setJson(JsonArray json) {
         this.json = json;
     }
 

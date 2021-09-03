@@ -4,6 +4,7 @@ import com.zihai.h2Client.Listener.NetWorkEvent;
 import com.zihai.h2Client.dto.TestDto;
 import com.zihai.h2Client.service.TestService;
 import com.zihai.h2Client.util.Constant;
+import com.zihai.h2Client.util.JsonHelp;
 import com.zihai.h2Client.util.SpringBeanUtil;
 import com.zihai.spi.service.ExtendService;
 import com.zihai.spi.service.SpiService;
@@ -41,11 +42,17 @@ public class TestController {
     private Integer age;
 
 
-    @RequestMapping(value = "testPost",method = RequestMethod.POST)
+    @RequestMapping(value = {"testPost","testGet"},method = RequestMethod.POST)
     public TestDto testPost(@RequestBody TestDto dto){
         LOGGER.info("testPost"+name+age);
         return dto;
     }
+    @PostMapping("testArray")
+    public String testPost(String userId,@RequestBody List<String> months){
+        LOGGER.info("userId=={},mouths={}",userId,JsonHelp.gson.toJson(months));
+        return "ok";
+    }
+
     @RequestMapping("getVisitor")
     public List getVisitor(){
         LOGGER.info(name+age);

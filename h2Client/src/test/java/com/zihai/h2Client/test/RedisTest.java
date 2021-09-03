@@ -2,6 +2,8 @@ package com.zihai.h2Client.test;
 
 
 import com.zihai.h2Client.dto.People;
+import com.zihai.h2Client.util.JsonHelp;
+import org.beetl.ext.fn.Json;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisClusterConnection;
+import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.core.*;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -56,11 +60,19 @@ public class RedisTest {
 
     @Test
     public void TestCluster(){
-        LOGGER.info("begingTestCluseter");
-        redisClusterConnection.set("liu".getBytes(),"程欣".getBytes());
-        System.out.println(new String(redisClusterConnection.get("liu".getBytes())));
+        LOGGER.info("begingTestCluseter2");
+        redisClusterConnection.del("tempHuodong".getBytes());
+        for(int i=0;i<20;i++){
+            redisClusterConnection.lPush("tempHuodong".getBytes(),(i+"").getBytes());
+        }
+        redisClusterConnection.lRem("tempHuodong".getBytes(),1,"18".getBytes());
+        List<String> list = new ArrayList<>();
+        redisClusterConnection.lRange("tempHuodong".getBytes(),0,-1).stream().forEach(e->{
+            list.add(new String(e));
+        });
+        LOGGER.info(JsonHelp.gson.toJson(list));
+       // LOGGER.info(new String(redisClusterConnection.get("liu".getBytes())));
     }
-
     @Test
     public void TestLock() throws InterruptedException {
         redisTemplate.setEnableTransactionSupport(false);

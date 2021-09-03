@@ -11,8 +11,8 @@ import java.net.URISyntaxException;
 public class ApolloMqtt {
     private static final Logger logger = LoggerFactory.getLogger(ApolloMqtt.class);
 
-    private static String mqttUri ="tcp://localhost:61613";
-    private static String clientId = "test001";
+    private static String mqttUri ="tcp://192.168.0.133:61613";
+    private static String clientId = "server";
 
     public static volatile BlockingConnection connection;
     private static void init (){
@@ -33,7 +33,7 @@ public class ApolloMqtt {
         // 服务器认证用户名
         mqtt.setUserName("admin");
         // 服务器认证密码
-        mqtt.setPassword("password");
+        mqtt.setPassword("public");
         // 设置“遗嘱”消息的话题，若客户端与服务器之间的连接意外中断，服务器将发布客户端的“遗嘱”消息
         mqtt.setWillTopic("notopic");
         // 设置“遗嘱”消息的内容，默认是长度为零的消息
