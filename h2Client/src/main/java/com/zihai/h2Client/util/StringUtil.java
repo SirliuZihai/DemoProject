@@ -1,5 +1,8 @@
 package com.zihai.h2Client.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class StringUtil {
     // 32个字符，用来表示32进制
     final static char[] digits = {
@@ -38,5 +41,9 @@ public class StringUtil {
     public static void main(String[] args) {
         System.out.println(transfer32(1686216l));
         System.out.println(Long.toString(1686216l,32).toUpperCase());
+
+        Set<String> o = new HashSet<>();
+        o.add("1aasdf");
+        o.remove(1);
     }
 }

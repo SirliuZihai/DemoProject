@@ -99,6 +99,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -107,6 +108,7 @@
                         <verbose />
                         <bootclasspath>${java.home}/lib/rt.jar${path.separator}${java.home}/lib/jce.jar</bootclasspath>
                     </compilerArguments>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
                 </configuration>
             </plugin>
             <plugin>
@@ -133,9 +135,8 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <skipTests>false</skipTests>
+                    <skipTests>true</skipTests>
                     <test>com.zihai.h2Client.test.RedisTest#TestCluster</test>
-                    <test></test>
                     <failIfNoTests>false</failIfNoTests>
                 </configuration>
             </plugin>
