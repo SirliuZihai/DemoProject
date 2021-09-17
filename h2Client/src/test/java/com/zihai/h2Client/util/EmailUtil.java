@@ -12,7 +12,7 @@ import java.util.Properties;
 public class EmailUtil {
     public static void sendMail(String title, String to) throws MessagingException {
         String content="测试";
-        String from = "suport@iim.ltd";
+        String from = "";
         Properties prop=new Properties();
         prop.put("mail.host","smtp.mxhichina.com" );
         prop.put("mail.transport.protocol", "smtp");
@@ -24,7 +24,7 @@ public class EmailUtil {
         Session session= Session.getInstance(prop);
         session.setDebug(true);
         Transport ts=session.getTransport();
-        ts.connect(from, "Zxzq8888");
+        ts.connect(from, "");
         Message message=new MimeMessage(session);
         message.setFrom(new InternetAddress(from));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
