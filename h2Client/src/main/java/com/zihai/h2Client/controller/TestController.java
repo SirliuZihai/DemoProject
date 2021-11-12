@@ -44,7 +44,7 @@ public class TestController {
 
     @RequestMapping(value = {"testPost","testGet"},method = RequestMethod.POST)
     public TestDto testPost(@RequestBody TestDto dto){
-        LOGGER.info("testPost"+name+age);
+        LOGGER.info(JsonHelp.gson.toJson(dto));
         return dto;
     }
     @PostMapping("testArray")
