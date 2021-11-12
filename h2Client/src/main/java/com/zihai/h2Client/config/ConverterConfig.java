@@ -28,6 +28,7 @@ public class ConverterConfig {
         //设置过滤掉null值得属性.
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        //时间+8 bug
         objectMapper.setTimeZone(TimeZone.getDefault());
         return new MappingJackson2HttpMessageConverter(objectMapper);
     }
