@@ -9,8 +9,8 @@
     <!-- 一个数据库一个context -->
     <context id="infoGuardian" targetRuntime="MyBatis3">
         <!-- 注释 -->
-        <commentGenerator >
-            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+        <commentGenerator type="com.zihai.h2Client.sqlGenerat.MyCommentGenerator2">
+            <property name="suppressAllComments" value="false"/><!-- 是否取消注释 -->
             <property name="suppressDate" value="false" /> <!-- 是否生成注释代时间戳-->
         </commentGenerator>
 
@@ -26,7 +26,7 @@
         </javaTypeResolver>
 
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="com.zihai.h2Client.core.entity"
+        <javaModelGenerator targetPackage="org.sxy.trade.server.model"
                             targetProject="${project_core}" >
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->
             <property name="enableSubPackages" value="false"/>
@@ -42,7 +42,7 @@
         </sqlMapGenerator>
 
         <!-- 生成mapxml对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="com.zihai.h2Client.dao"
+        <javaClientGenerator targetPackage="org.sxy.trade.server.dao"
                              targetProject="${project}" type="XMLMAPPER" >
             <!-- 是否在当前路径下新加一层schema,eg：fase路径cn.ffcs.test.domain"， true:cn.ffcs.test.domain".[schemaName] -->
             <property name="enableSubPackages" value="false" />
@@ -50,9 +50,23 @@
 
         <!-- 配置表信息，这里没生成一张表，这里需要改变一次对应表名 -->
 
-        <table schema="public" tableName="oplog" mapperName="OplogMapper"
-               domainObjectName="Oplog"
+     <!--   <table schema="public" tableName="sdk_log" mapperName="SdkLogDao"
+               domainObjectName="SdkLog"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false"/>
+               enableSelectByExample="false">
+            <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+            <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+            <columnOverride column="resp_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+            <columnOverride column="req_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+        </table>-->
+        <table schema="public" tableName="order_log" mapperName="OrderLogDao"
+               domainObjectName="OrderLog"
+               enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false">
+            <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+            <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+            <columnOverride column="resp_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+            <columnOverride column="req_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler"></columnOverride>
+        </table>
     </context>
 </generatorConfiguration>
