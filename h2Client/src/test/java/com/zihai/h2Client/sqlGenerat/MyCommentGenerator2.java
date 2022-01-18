@@ -15,6 +15,7 @@
  */
 package com.zihai.h2Client.sqlGenerat;
 
+import com.zihai.h2Client.util.ValidatUtil;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -119,7 +120,7 @@ public class MyCommentGenerator2 implements CommentGenerator {
      *            the java element
      */
     protected void addJavadocTag(JavaElement javaElement, boolean markAsDoNotDelete) {
-        javaElement.addJavaDocLine(" *");
+       /* javaElement.addJavaDocLine(" *");
         StringBuilder sb = new StringBuilder();
         sb.append(" * ");
         sb.append(MergeConstants.NEW_ELEMENT_TAG);
@@ -131,7 +132,7 @@ public class MyCommentGenerator2 implements CommentGenerator {
             sb.append(' ');
             sb.append(s);
         }
-        javaElement.addJavaDocLine(sb.toString());
+        javaElement.addJavaDocLine(sb.toString());*/
     }
 
     /**
@@ -188,6 +189,8 @@ public class MyCommentGenerator2 implements CommentGenerator {
         if(!introspectedColumn.isNullable()){
             field.addJavaDocLine(" *@required");
         }
+        if(ValidatUtil.hasOrignProp(introspectedColumn.getJavaProperty()))
+            field.addJavaDocLine(" *@ignore");
         field.addJavaDocLine(" */");
     }
 
@@ -217,12 +220,12 @@ public class MyCommentGenerator2 implements CommentGenerator {
     }
 
     public void addGeneralMethodComment(Method method, IntrospectedTable introspectedTable) {
-        if (suppressAllComments) {
-            return;
-        }
-        method.addJavaDocLine("/**");
-        addJavadocTag(method, false);
-        method.addJavaDocLine(" */");
+//        if (suppressAllComments) {
+//            return;
+//        }
+//        method.addJavaDocLine("/**");
+//        addJavadocTag(method, false);
+//        method.addJavaDocLine(" */");
     }
 
     public void addGetterComment(Method method, IntrospectedTable introspectedTable,

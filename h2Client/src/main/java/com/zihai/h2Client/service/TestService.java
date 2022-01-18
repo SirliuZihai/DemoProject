@@ -8,4 +8,8 @@ public interface TestService {
     String testSql();
 
     void updateTest();
+
+    String testCache(String id);
+
+    void testCacheEvict(String id);
 }

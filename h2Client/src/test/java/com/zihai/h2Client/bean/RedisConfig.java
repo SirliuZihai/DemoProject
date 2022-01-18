@@ -137,7 +137,7 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setConnectionFactory(factory);
-        redisTemplate.setEnableTransactionSupport(false);
+        redisTemplate.setEnableTransactionSupport(true);
         LOGGER.info("redisTemplate=="+redisTemplate.toString());
         return redisTemplate;
     }

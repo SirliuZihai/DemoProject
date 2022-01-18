@@ -6,6 +6,8 @@ import com.zihai.h2Client.dao.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 
-//@Service
+@Service
 public class TestServiceImpl implements TestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 
@@ -44,5 +46,20 @@ public class TestServiceImpl implements TestService {
         LOGGER.info("now userName = {}",userMapper.selectTest());
         throw new RuntimeException();
     }
+
+    @Override
+    @Cacheable(cacheNames = "testCache",key="#id")
+    public String testCache(String id) {
+        String result = "get the id"+id;
+        LOGGER.info(result);
+        return result;
+    }
+
+    @Override
+    @CacheEvict(cacheNames="testCache",key = "#id")
+    public void testCacheEvict(String id) {
+        LOGGER.info("do testCacheEvict {}",id);
+    }
+
 
 }

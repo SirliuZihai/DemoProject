@@ -13,16 +13,28 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
 	private static Logger logger = LoggerFactory.getLogger(MyHttpServletRequestWrapper.class);
 	private byte[] body; // 用于保存读取body中数据
+	private static Set<String> contentTypes;
+	static {
+		contentTypes = new HashSet<>();
+		contentTypes.add("application/json");
+		//contentTypes.add("application/x-www-form-urlencoded");
+		//contentTypes.add("multipart/form-data");
+	}
 
 	public MyHttpServletRequestWrapper(HttpServletRequest request) {
 		super(request);
 		// 读取请求的数据保存到本类当中
 		try {
-			body = IOUtils.toByteArray(request.getReader(), StandardCharsets.UTF_8);
+			logger.info("header contentType=={}",request.getHeader("Content-Type"));
+			if(contentTypes.contains(request.getHeader("Content-Type"))){
+				body = IOUtils.toByteArray(request.getReader(), StandardCharsets.UTF_8);
+			}
 		} catch (Exception e) {
 			logger.error("初始化MyHttpServletRequestWrapper异常："+e.getMessage());
 		}
@@ -70,7 +82,7 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 	/**
 	 * 获取body中的数据
-	 * 
+	 *
 	 * @return
 	 */
 	public byte[] getBody() {
@@ -79,7 +91,7 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 	/**
 	 * 把处理后的参数放到body里面
-	 * 
+	 *
 	 * @param body
 	 */
 	public void setBody(byte[] body) {

@@ -10,10 +10,23 @@ public class ValidatUtil {
         return phone.matches(regex);
     }
 
+    public static boolean hasOrignProp(String text){
+        String regex ="\\b(state|createBy|createTime|updateBy|updateTime|id)\\b";
+        return text.matches(regex);
+    }
+
+
+    public static boolean isIdentity(String identity){
+        String regex = "^\\d{15}|\\d{18}$";
+        return identity.matches(regex);
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(isPhone("86+13386126649"));
+        /*System.out.println(isPhone("86+13386126649"));
         System.out.println(isPhone("133gve861249"));
         System.out.println(isEmail("xx@ss.com"));
-        System.out.println(isEmail("xs.com"));
+        System.out.println(isEmail("xs.com"));*/
+        System.out.println(isIdentity("123456789123456"));
     }
 }

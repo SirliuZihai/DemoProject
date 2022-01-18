@@ -1,6 +1,7 @@
 package com.zihai.h2Client.controller;
 
 import com.zihai.h2Client.Listener.NetWorkEvent;
+import com.zihai.h2Client.dto.Result;
 import com.zihai.h2Client.dto.TestDto;
 import com.zihai.h2Client.service.TestService;
 import com.zihai.h2Client.util.Constant;
@@ -34,7 +35,7 @@ public class TestController {
     private SpiService spiService;
     @Autowired
     private ExtendService extendService;
-    //@Autowired
+    @Autowired
     private TestService testService;
     @Value("${name}")
     private String name;
@@ -124,5 +125,15 @@ public class TestController {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @GetMapping("test/cache")
+    public Result testCache(String id){
+        return Result.success(testService.testCache(id));
+    }
+
+    @GetMapping("test/cacheEvict")
+    public Result testCacheEvict(String id){
+        testService.testCacheEvict(id);
+        return Result.success("ok");
     }
 }

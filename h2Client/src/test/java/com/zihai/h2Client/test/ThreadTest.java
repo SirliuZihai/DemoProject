@@ -1,8 +1,35 @@
 package com.zihai.h2Client.test;
 
-public class ThreadTest {
-    ThreadLocal<String> t = new ThreadLocal<>();
-    public static void main(String[] args) {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class ThreadTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadTest.class);
+    public static class Mythread implements Runnable{
+        private InheritableThreadLocal<String> t = new InheritableThreadLocal<>();
+        private ThreadLocal<String> t3 = new ThreadLocal<>();
+        @Override
+        public void run() {
+            t.set("haha");
+            t3.set("haha3");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    LOGGER.info(t.get()+" "+ t3.get());
+                    t.set("gobu");
+                }
+            }).start();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            LOGGER.info(t.get()+" "+ t3.get());
+        }
+    }
+
+    public static void main(String[] args) {
+        Mythread myt = new Mythread();
+        new Thread(myt).start();
     }
 }

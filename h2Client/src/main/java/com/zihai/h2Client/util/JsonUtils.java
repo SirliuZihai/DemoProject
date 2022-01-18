@@ -1,13 +1,18 @@
 package com.zihai.h2Client.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 
 
 public class JsonUtils {
@@ -25,6 +30,12 @@ public class JsonUtils {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         // 设置输出时包含属性的风格
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        //时间+8 bug
+        mapper.setTimeZone(TimeZone.getDefault());
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(LocalDateTime.class,new LocalDateDeserializer());
+        module.addSerializer(LocalDateTime.class,new LocalDateSerializer());
+        mapper.registerModule(module);
     }
 
 
@@ -67,4 +78,19 @@ public class JsonUtils {
         return t;
     }
 
+}
+class LocalDateSerializer extends JsonSerializer<LocalDateTime> {
+    @Override
+    public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers)
+            throws IOException {
+        gen.writeString(value.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+    }
+}
+
+class LocalDateDeserializer extends JsonDeserializer<LocalDateTime> {
+    @Override
+    public LocalDateTime deserialize(JsonParser p, DeserializationContext deserializationContext)
+            throws IOException {
+        return LocalDateTime.parse(p.getValueAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
 }
