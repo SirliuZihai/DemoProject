@@ -7,9 +7,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface CarMapper {
+public interface DTOMapper {
  
-    CarMapper INSTANCE = Mappers.getMapper( CarMapper.class );
+    DTOMapper INSTANCE = Mappers.getMapper( DTOMapper.class );
  
     @Mapping(source = "numberOfSeats", target = "seatCount")
     CarDto carToCarDto(Car car);

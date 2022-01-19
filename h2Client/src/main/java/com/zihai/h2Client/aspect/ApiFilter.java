@@ -48,22 +48,10 @@ public class ApiFilter implements Filter {
         HttpServletRequest res = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         MyHttpServletRequestWrapper requestWrapper = new MyHttpServletRequestWrapper(res);
-
-        //参数校验
-        if(requestWrapper.getBody() == null||requestWrapper.getBody().length ==0 ||StringUtils.isEmpty(requestWrapper.getBodyStr())){
-            JsonObject obj = new JsonObject();
-            Enumeration<String> enumeration =  res.getParameterNames();
-            while (enumeration.hasMoreElements()){
-                String key = enumeration.nextElement();
-                obj.addProperty(key,res.getParameter(key));
-            }
-            requestWrapper.setBody(obj.toString().getBytes());
-        }
         //打印入参
-        if(!res.getServletPath().contains("/file/upload")){
-            logger.info("reqUrl=={},requestBody=={}",res.getServletPath(),requestWrapper.getBodyStr());
-        }
-
+        if(!WhiteList.noLogSet.contains(res.getServletPath()))
+            logger.info("reqUrl=={},requestBody=={}", res.getServletPath(), requestWrapper.getBodyStr());
+        //参数校验
         if(validate_map.get(res.getServletPath())!=null){
             try {
                 String result = (String) JsValidate.engine.invokeFunction(validate_map.get(res.getServletPath()).getAsString(), requestWrapper.getBodyStr());

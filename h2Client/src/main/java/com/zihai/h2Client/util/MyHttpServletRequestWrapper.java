@@ -1,8 +1,11 @@
 package com.zihai.h2Client.util;
 
+import com.google.gson.JsonObject;
+import com.zihai.h2Client.aspect.WhiteList;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -13,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,12 +35,21 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
 		super(request);
 		// 读取请求的数据保存到本类当中
 		try {
-			logger.info("header contentType=={}",request.getHeader("Content-Type"));
-			if(contentTypes.contains(request.getHeader("Content-Type"))){
+			String header = request.getHeader("Content-Type");
+			if(StringUtils.hasText(header) && contentTypes.contains(header.split(";")[0])){
 				body = IOUtils.toByteArray(request.getReader(), StandardCharsets.UTF_8);
 			}
+			if (body == null || body.length == 0) {
+				JsonObject obj = new JsonObject();
+				Enumeration<String> enumeration = request.getParameterNames();
+				while (enumeration.hasMoreElements()) {
+					String key = enumeration.nextElement();
+					obj.addProperty(key, request.getParameter(key));
+				}
+				setBody(obj.toString().getBytes());
+			}
 		} catch (Exception e) {
-			logger.error("初始化MyHttpServletRequestWrapper异常："+e.getMessage());
+			logger.warn("初始化MyHttpServletRequestWrapper异常："+e.getMessage());
 		}
 
 	}
