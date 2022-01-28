@@ -75,7 +75,7 @@
             <columnOverride column="password" jdbcType="VARCHAR" typeHandler="org.sxy.trade.server.mybatis.type.CryptTypeHandler"></columnOverride>
         </table>
 -->
-        <table schema="public" tableName="action" mapperName="ActionDao" domainObjectName="ActionDO"
+  <!--      <table schema="public" tableName="action" mapperName="ActionDao" domainObjectName="ActionDO"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false"  enableUpdateByPrimaryKey="false">
             <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
@@ -106,6 +106,18 @@
             <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
         </table>
         <table schema="public" tableName="role_user_relation" mapperName="RoleUserRelationDao" domainObjectName="RoleUserRelationDO"
+               enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false">
+            <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+            <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+        </table>-->
+        <!--<table schema="public" tableName="matched_orders_task_base_accounts" mapperName="MatchedOrdersTaskBaseAccountsDao" domainObjectName="MatchedOrdersTaskBaseAccountsDO"
+               enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false">
+            <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+            <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+        </table>-->
+        <table schema="public" tableName="organization" mapperName="OrganizationDao" domainObjectName="OrganizationDO"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false">
             <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>

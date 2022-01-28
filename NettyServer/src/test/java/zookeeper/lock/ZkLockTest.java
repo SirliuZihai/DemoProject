@@ -1,7 +1,5 @@
 package zookeeper.lock;
 
-import org.apache.zookeeper.KeeperException;
-
 public class ZkLockTest {
     static Integer count = 0;
     public static void main(String[] args) {

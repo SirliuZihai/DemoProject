@@ -76,13 +76,13 @@ public class MyHttpServletRequestWrapper extends HttpServletRequestWrapper {
 			@Override
 			public boolean isFinished() {
 				// TODO Auto-generated method stub
-				return false;
+				return bais.available()==0;
 			}
 
 			@Override
 			public boolean isReady() {
 				// TODO Auto-generated method stub
-				return false;
+				return true;
 			}
 
 			@Override

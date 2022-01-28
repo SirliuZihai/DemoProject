@@ -257,4 +257,23 @@ public class DateTimeUtils {
 		ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
 		return Date.from(zonedDateTime.toInstant());
 	}
+	/** LocalDateTime 转 Long */
+	public static Long localDateTimeToLong(LocalDateTime localDateTime){
+		return localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+	}
+	/** Long 转 LocalDateTime */
+	public static LocalDateTime longToLocalDateTime(Long timestamp){
+		return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
+	}
+
+	/** LocalDateTime 转 Date */
+	public static Date dateTOLocalDateTime(LocalDateTime localDateTime){
+		return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+	}
+	/** Date 转 LocalDateTime */
+	public static LocalDateTime dateTOLocalDateTime(Date date){
+		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+	}
+
+
 }
