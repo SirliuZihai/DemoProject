@@ -32,7 +32,7 @@ public class TaskExecutePool {
 		executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
 		// 等待所有任务结束后再关闭线程池
 		executor.setWaitForTasksToCompleteOnShutdown(true);
-		executor.initialize();
+		//executor.initialize();
 		return executor;
 	}
 }

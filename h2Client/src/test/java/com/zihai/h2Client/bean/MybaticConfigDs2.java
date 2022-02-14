@@ -9,13 +9,14 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
+@Profile("dev")
 @MapperScan(basePackages ="com.zihai.h2Client.dao.ds2", sqlSessionTemplateRef  = "ds2SqlSessionTemplate")
 public class MybaticConfigDs2 {
     //第二个ds2数据源配置

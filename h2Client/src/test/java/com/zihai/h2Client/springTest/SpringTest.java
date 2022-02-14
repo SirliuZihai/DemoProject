@@ -4,12 +4,18 @@ import com.zihai.h2Client.core.entity.Oplog;
 import com.zihai.h2Client.core.entity.Product;
 import com.zihai.h2Client.dao.ds1.ProductMapper;
 import com.zihai.h2Client.dao.ds2.OplogMapper;
+import com.zihai.h2Client.dto.People;
 import com.zihai.h2Client.util.JsonHelp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -18,17 +24,27 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.concurrent.CountDownLatch;
 
 @RunWith(SpringRunner.class)
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = {RedisRepositoriesAutoConfiguration.class, MongoRepositoriesAutoConfiguration.class })
 @ComponentScan("com.zihai.h2Client")
+@MapperScan("com.zihai.h2Client.dao")
 @SpringBootTest
 public class SpringTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringTest.class);
+
     @Value("${file.picPath}")
     private String picPath;
 
-    @Autowired
+    //@Autowired
     private OplogMapper oplogMapper;
-    @Autowired
+    //@Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private People people;
+
+    @Test
+    public void config(){
+        LOGGER.info(JsonHelp.gson.toJson(people));
+    }
 
     @Test
     public void test(){

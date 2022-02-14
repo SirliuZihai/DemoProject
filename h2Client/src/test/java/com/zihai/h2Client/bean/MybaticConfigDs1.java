@@ -12,12 +12,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
+
 @Configuration
+@Profile("dev")
 @MapperScan(basePackages ="com.zihai.h2Client.dao.ds1", sqlSessionTemplateRef  = "ds1SqlSessionTemplate")
 public class MybaticConfigDs1 {
     private static final Logger LOGGER = LoggerFactory.getLogger(MybaticConfigDs1.class);
