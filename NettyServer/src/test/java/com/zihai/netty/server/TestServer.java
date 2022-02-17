@@ -23,8 +23,8 @@ public class TestServer {
     }
 
     public void run() throws Exception {
-        EventLoopGroup bossGroup = new NioEventLoopGroup(5); // (1)
-        EventLoopGroup workerGroup = new NioEventLoopGroup(10);
+        EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
+        EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors());
         try {
             ServerBootstrap b = new ServerBootstrap(); // (2)
             b.group(bossGroup, workerGroup)
@@ -37,6 +37,16 @@ public class TestServer {
                             ch.pipeline().addLast(new ProtobufDecoder(People.Parent.getDefaultInstance()));
                             ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                             ch.pipeline().addLast(new ProtobufEncoder());
+                           /* ch.pipeline().addLast(new SimpleChannelInboundHandler<HeartBeat>() {
+                                @Override
+                                protected void channelRead0(ChannelHandlerContext ctx, HeartBeat msg) throws Exception {
+                                    if(msg.getCode() == 0x01){
+                                        ctx.writeAndFlush(new HeartBeat((byte) 0x02));
+                                    }else{
+                                        ctx.fireChannelRead(msg);
+                                    }
+                                }
+                            });*/
                             ch.pipeline().addLast(new TestServerHandler());
                         }
                     })

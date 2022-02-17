@@ -1,3 +1,5 @@
+package client;
+
 import com.zihai.proto.entity.People;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
