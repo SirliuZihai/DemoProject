@@ -117,11 +117,13 @@
             <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
             <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
         </table>-->
-        <table schema="public" tableName="organization" mapperName="OrganizationDao" domainObjectName="OrganizationDO"
+        <table schema="public" tableName="stock_trade_account_ft" mapperName="StockTradeAccountFTDao" domainObjectName="StockTradeAccountFTDO"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false">
             <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
             <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+            <columnOverride column="password" jdbcType="VARCHAR" typeHandler="org.sxy.trade.server.mybatis.type.CryptTypeHandler"></columnOverride>
+            <columnOverride column="trade_password" jdbcType="VARCHAR" typeHandler="org.sxy.trade.server.mybatis.type.CryptTypeHandler"></columnOverride>
         </table>
     </context>
 </generatorConfiguration>

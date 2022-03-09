@@ -15,7 +15,7 @@ message Parent{
     string name = 1; //名字
     int32 age = 2;  //年龄
     string like = 3; //喜好
-    bytes fsfd = 4; //文件
+    Son son = 4; //文件
 }
 
 enum methodCode{

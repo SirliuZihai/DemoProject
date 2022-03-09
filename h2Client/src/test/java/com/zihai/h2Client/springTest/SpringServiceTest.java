@@ -2,8 +2,10 @@ package com.zihai.h2Client.springTest;
 
 import com.zihai.h2Client.annotation.BusMethod;
 import com.zihai.h2Client.annotation.BusService;
+import com.zihai.h2Client.service.AdviceService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,11 +20,18 @@ import static com.zihai.h2Client.util.BeanScanUtil.scanClass;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
-@ComponentScan("com.zihai")
+@ComponentScan("com.zihai.h2Client")
 @SpringBootTest
 public class SpringServiceTest {
+    @Autowired
+    AdviceService adviceService;
     HashMap<String,Method> methodMap = new HashMap<>();
     HashMap<String,Object> beanMap = new HashMap<>();
+
+    @Test
+    public void TestAdvice(){
+        adviceService.test();
+    }
 
     @Test
     public void Test() throws InvocationTargetException, IllegalAccessException, InstantiationException {

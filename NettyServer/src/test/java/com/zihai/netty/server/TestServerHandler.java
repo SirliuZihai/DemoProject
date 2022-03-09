@@ -13,7 +13,8 @@ public class TestServerHandler extends ChannelInboundHandlerAdapter {
         System.out.println("channelRead");
         try {
             People.Parent p= (People.Parent)msg;
-            People.Son son = People.Son.parseFrom(p.getSon());
+            //People.Son son = People.Son.parseFrom(p.getSon());
+            People.Son son = p.getSon();
             People.Son.Builder s = People.Son.newBuilder();
             s.setAge(son.getAge());
             s.setName(son.getName());
@@ -26,8 +27,6 @@ public class TestServerHandler extends ChannelInboundHandlerAdapter {
             ByteBuf encoded = ctx.alloc().buffer(length);
             encoded.writeBytes(part.getName().getBytes());
             ctx.writeAndFlush(encoded);*/
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
         } finally {
             ReferenceCountUtil.release(msg);
         }

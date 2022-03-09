@@ -14,21 +14,122 @@ public final class People {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * Protobuf enum {@code peple.methodCode}
+   */
+  public enum methodCode
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>saveVisitor = 0;</code>
+     */
+    saveVisitor(0),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>saveVisitor = 0;</code>
+     */
+    public static final int saveVisitor_VALUE = 0;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static methodCode valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static methodCode forNumber(int value) {
+      switch (value) {
+        case 0: return saveVisitor;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<methodCode>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        methodCode> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<methodCode>() {
+            public methodCode findValueByNumber(int number) {
+              return methodCode.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.zihai.proto.entity.People.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final methodCode[] VALUES = values();
+
+    public static methodCode valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private methodCode(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:peple.methodCode)
+  }
+
   public interface SonOrBuilder extends
       // @@protoc_insertion_point(interface_extends:peple.Son)
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     java.lang.String getName();
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
+     * <pre>
+     *年龄
+     * </pre>
+     *
      * <code>int32 age = 2;</code>
      */
     int getAge();
@@ -119,6 +220,10 @@ public final class People {
     public static final int NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object name_;
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     public java.lang.String getName() {
@@ -134,6 +239,10 @@ public final class People {
       }
     }
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -153,6 +262,10 @@ public final class People {
     public static final int AGE_FIELD_NUMBER = 2;
     private int age_;
     /**
+     * <pre>
+     *年龄
+     * </pre>
+     *
      * <code>int32 age = 2;</code>
      */
     public int getAge() {
@@ -461,6 +574,10 @@ public final class People {
 
       private java.lang.Object name_ = "";
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public java.lang.String getName() {
@@ -476,6 +593,10 @@ public final class People {
         }
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -492,6 +613,10 @@ public final class People {
         }
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder setName(
@@ -505,6 +630,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder clearName() {
@@ -514,6 +643,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder setNameBytes(
@@ -530,12 +663,20 @@ public final class People {
 
       private int age_ ;
       /**
+       * <pre>
+       *年龄
+       * </pre>
+       *
        * <code>int32 age = 2;</code>
        */
       public int getAge() {
         return age_;
       }
       /**
+       * <pre>
+       *年龄
+       * </pre>
+       *
        * <code>int32 age = 2;</code>
        */
       public Builder setAge(int value) {
@@ -545,6 +686,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *年龄
+       * </pre>
+       *
        * <code>int32 age = 2;</code>
        */
       public Builder clearAge() {
@@ -607,34 +752,74 @@ public final class People {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     java.lang.String getName();
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
+     * <pre>
+     *年龄
+     * </pre>
+     *
      * <code>int32 age = 2;</code>
      */
     int getAge();
 
     /**
+     * <pre>
+     *喜好
+     * </pre>
+     *
      * <code>string like = 3;</code>
      */
     java.lang.String getLike();
     /**
+     * <pre>
+     *喜好
+     * </pre>
+     *
      * <code>string like = 3;</code>
      */
     com.google.protobuf.ByteString
         getLikeBytes();
 
     /**
-     * <code>bytes son = 4;</code>
+     * <pre>
+     *文件
+     * </pre>
+     *
+     * <code>.peple.Son son = 4;</code>
      */
-    com.google.protobuf.ByteString getSon();
+    boolean hasSon();
+    /**
+     * <pre>
+     *文件
+     * </pre>
+     *
+     * <code>.peple.Son son = 4;</code>
+     */
+    com.zihai.proto.entity.People.Son getSon();
+    /**
+     * <pre>
+     *文件
+     * </pre>
+     *
+     * <code>.peple.Son son = 4;</code>
+     */
+    com.zihai.proto.entity.People.SonOrBuilder getSonOrBuilder();
   }
   /**
    * Protobuf type {@code peple.Parent}
@@ -652,7 +837,6 @@ public final class People {
       name_ = "";
       age_ = 0;
       like_ = "";
-      son_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -704,8 +888,16 @@ public final class People {
               break;
             }
             case 34: {
+              com.zihai.proto.entity.People.Son.Builder subBuilder = null;
+              if (son_ != null) {
+                subBuilder = son_.toBuilder();
+              }
+              son_ = input.readMessage(com.zihai.proto.entity.People.Son.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(son_);
+                son_ = subBuilder.buildPartial();
+              }
 
-              son_ = input.readBytes();
               break;
             }
           }
@@ -735,6 +927,10 @@ public final class People {
     public static final int NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object name_;
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     public java.lang.String getName() {
@@ -750,6 +946,10 @@ public final class People {
       }
     }
     /**
+     * <pre>
+     *名字
+     * </pre>
+     *
      * <code>string name = 1;</code>
      */
     public com.google.protobuf.ByteString
@@ -769,6 +969,10 @@ public final class People {
     public static final int AGE_FIELD_NUMBER = 2;
     private int age_;
     /**
+     * <pre>
+     *年龄
+     * </pre>
+     *
      * <code>int32 age = 2;</code>
      */
     public int getAge() {
@@ -778,6 +982,10 @@ public final class People {
     public static final int LIKE_FIELD_NUMBER = 3;
     private volatile java.lang.Object like_;
     /**
+     * <pre>
+     *喜好
+     * </pre>
+     *
      * <code>string like = 3;</code>
      */
     public java.lang.String getLike() {
@@ -793,6 +1001,10 @@ public final class People {
       }
     }
     /**
+     * <pre>
+     *喜好
+     * </pre>
+     *
      * <code>string like = 3;</code>
      */
     public com.google.protobuf.ByteString
@@ -810,12 +1022,36 @@ public final class People {
     }
 
     public static final int SON_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString son_;
+    private com.zihai.proto.entity.People.Son son_;
     /**
-     * <code>bytes son = 4;</code>
+     * <pre>
+     *文件
+     * </pre>
+     *
+     * <code>.peple.Son son = 4;</code>
      */
-    public com.google.protobuf.ByteString getSon() {
-      return son_;
+    public boolean hasSon() {
+      return son_ != null;
+    }
+    /**
+     * <pre>
+     *文件
+     * </pre>
+     *
+     * <code>.peple.Son son = 4;</code>
+     */
+    public com.zihai.proto.entity.People.Son getSon() {
+      return son_ == null ? com.zihai.proto.entity.People.Son.getDefaultInstance() : son_;
+    }
+    /**
+     * <pre>
+     *文件
+     * </pre>
+     *
+     * <code>.peple.Son son = 4;</code>
+     */
+    public com.zihai.proto.entity.People.SonOrBuilder getSonOrBuilder() {
+      return getSon();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -839,8 +1075,8 @@ public final class People {
       if (!getLikeBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, like_);
       }
-      if (!son_.isEmpty()) {
-        output.writeBytes(4, son_);
+      if (son_ != null) {
+        output.writeMessage(4, getSon());
       }
       unknownFields.writeTo(output);
     }
@@ -860,9 +1096,9 @@ public final class People {
       if (!getLikeBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, like_);
       }
-      if (!son_.isEmpty()) {
+      if (son_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, son_);
+          .computeMessageSize(4, getSon());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -886,8 +1122,11 @@ public final class People {
           == other.getAge());
       result = result && getLike()
           .equals(other.getLike());
-      result = result && getSon()
-          .equals(other.getSon());
+      result = result && (hasSon() == other.hasSon());
+      if (hasSon()) {
+        result = result && getSon()
+            .equals(other.getSon());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -905,8 +1144,10 @@ public final class People {
       hash = (53 * hash) + getAge();
       hash = (37 * hash) + LIKE_FIELD_NUMBER;
       hash = (53 * hash) + getLike().hashCode();
-      hash = (37 * hash) + SON_FIELD_NUMBER;
-      hash = (53 * hash) + getSon().hashCode();
+      if (hasSon()) {
+        hash = (37 * hash) + SON_FIELD_NUMBER;
+        hash = (53 * hash) + getSon().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1042,8 +1283,12 @@ public final class People {
 
         like_ = "";
 
-        son_ = com.google.protobuf.ByteString.EMPTY;
-
+        if (sonBuilder_ == null) {
+          son_ = null;
+        } else {
+          son_ = null;
+          sonBuilder_ = null;
+        }
         return this;
       }
 
@@ -1069,7 +1314,11 @@ public final class People {
         result.name_ = name_;
         result.age_ = age_;
         result.like_ = like_;
-        result.son_ = son_;
+        if (sonBuilder_ == null) {
+          result.son_ = son_;
+        } else {
+          result.son_ = sonBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -1122,8 +1371,8 @@ public final class People {
           like_ = other.like_;
           onChanged();
         }
-        if (other.getSon() != com.google.protobuf.ByteString.EMPTY) {
-          setSon(other.getSon());
+        if (other.hasSon()) {
+          mergeSon(other.getSon());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1154,6 +1403,10 @@ public final class People {
 
       private java.lang.Object name_ = "";
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public java.lang.String getName() {
@@ -1169,6 +1422,10 @@ public final class People {
         }
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public com.google.protobuf.ByteString
@@ -1185,6 +1442,10 @@ public final class People {
         }
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder setName(
@@ -1198,6 +1459,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder clearName() {
@@ -1207,6 +1472,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *名字
+       * </pre>
+       *
        * <code>string name = 1;</code>
        */
       public Builder setNameBytes(
@@ -1223,12 +1492,20 @@ public final class People {
 
       private int age_ ;
       /**
+       * <pre>
+       *年龄
+       * </pre>
+       *
        * <code>int32 age = 2;</code>
        */
       public int getAge() {
         return age_;
       }
       /**
+       * <pre>
+       *年龄
+       * </pre>
+       *
        * <code>int32 age = 2;</code>
        */
       public Builder setAge(int value) {
@@ -1238,6 +1515,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *年龄
+       * </pre>
+       *
        * <code>int32 age = 2;</code>
        */
       public Builder clearAge() {
@@ -1249,6 +1530,10 @@ public final class People {
 
       private java.lang.Object like_ = "";
       /**
+       * <pre>
+       *喜好
+       * </pre>
+       *
        * <code>string like = 3;</code>
        */
       public java.lang.String getLike() {
@@ -1264,6 +1549,10 @@ public final class People {
         }
       }
       /**
+       * <pre>
+       *喜好
+       * </pre>
+       *
        * <code>string like = 3;</code>
        */
       public com.google.protobuf.ByteString
@@ -1280,6 +1569,10 @@ public final class People {
         }
       }
       /**
+       * <pre>
+       *喜好
+       * </pre>
+       *
        * <code>string like = 3;</code>
        */
       public Builder setLike(
@@ -1293,6 +1586,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *喜好
+       * </pre>
+       *
        * <code>string like = 3;</code>
        */
       public Builder clearLike() {
@@ -1302,6 +1599,10 @@ public final class People {
         return this;
       }
       /**
+       * <pre>
+       *喜好
+       * </pre>
+       *
        * <code>string like = 3;</code>
        */
       public Builder setLikeBytes(
@@ -1316,33 +1617,157 @@ public final class People {
         return this;
       }
 
-      private com.google.protobuf.ByteString son_ = com.google.protobuf.ByteString.EMPTY;
+      private com.zihai.proto.entity.People.Son son_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.zihai.proto.entity.People.Son, com.zihai.proto.entity.People.Son.Builder, com.zihai.proto.entity.People.SonOrBuilder> sonBuilder_;
       /**
-       * <code>bytes son = 4;</code>
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
        */
-      public com.google.protobuf.ByteString getSon() {
-        return son_;
+      public boolean hasSon() {
+        return sonBuilder_ != null || son_ != null;
       }
       /**
-       * <code>bytes son = 4;</code>
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
        */
-      public Builder setSon(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        son_ = value;
-        onChanged();
+      public com.zihai.proto.entity.People.Son getSon() {
+        if (sonBuilder_ == null) {
+          return son_ == null ? com.zihai.proto.entity.People.Son.getDefaultInstance() : son_;
+        } else {
+          return sonBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
+       */
+      public Builder setSon(com.zihai.proto.entity.People.Son value) {
+        if (sonBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          son_ = value;
+          onChanged();
+        } else {
+          sonBuilder_.setMessage(value);
+        }
+
         return this;
       }
       /**
-       * <code>bytes son = 4;</code>
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
+       */
+      public Builder setSon(
+          com.zihai.proto.entity.People.Son.Builder builderForValue) {
+        if (sonBuilder_ == null) {
+          son_ = builderForValue.build();
+          onChanged();
+        } else {
+          sonBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
+       */
+      public Builder mergeSon(com.zihai.proto.entity.People.Son value) {
+        if (sonBuilder_ == null) {
+          if (son_ != null) {
+            son_ =
+              com.zihai.proto.entity.People.Son.newBuilder(son_).mergeFrom(value).buildPartial();
+          } else {
+            son_ = value;
+          }
+          onChanged();
+        } else {
+          sonBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
        */
       public Builder clearSon() {
-        
-        son_ = getDefaultInstance().getSon();
-        onChanged();
+        if (sonBuilder_ == null) {
+          son_ = null;
+          onChanged();
+        } else {
+          son_ = null;
+          sonBuilder_ = null;
+        }
+
         return this;
+      }
+      /**
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
+       */
+      public com.zihai.proto.entity.People.Son.Builder getSonBuilder() {
+        
+        onChanged();
+        return getSonFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
+       */
+      public com.zihai.proto.entity.People.SonOrBuilder getSonOrBuilder() {
+        if (sonBuilder_ != null) {
+          return sonBuilder_.getMessageOrBuilder();
+        } else {
+          return son_ == null ?
+              com.zihai.proto.entity.People.Son.getDefaultInstance() : son_;
+        }
+      }
+      /**
+       * <pre>
+       *文件
+       * </pre>
+       *
+       * <code>.peple.Son son = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.zihai.proto.entity.People.Son, com.zihai.proto.entity.People.Son.Builder, com.zihai.proto.entity.People.SonOrBuilder> 
+          getSonFieldBuilder() {
+        if (sonBuilder_ == null) {
+          sonBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.zihai.proto.entity.People.Son, com.zihai.proto.entity.People.Son.Builder, com.zihai.proto.entity.People.SonOrBuilder>(
+                  getSon(),
+                  getParentForChildren(),
+                  isClean());
+          son_ = null;
+        }
+        return sonBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -1413,10 +1838,12 @@ public final class People {
   static {
     java.lang.String[] descriptorData = {
       "\n\020extraction.proto\022\005peple\" \n\003Son\022\014\n\004name" +
-      "\030\001 \001(\t\022\013\n\003age\030\002 \001(\005\">\n\006Parent\022\014\n\004name\030\001 " +
-      "\001(\t\022\013\n\003age\030\002 \001(\005\022\014\n\004like\030\003 \001(\t\022\013\n\003son\030\004 " +
-      "\001(\014B \n\026com.zihai.proto.entityB\006Peopleb\006p" +
-      "roto3"
+      "\030\001 \001(\t\022\013\n\003age\030\002 \001(\005\"J\n\006Parent\022\014\n\004name\030\001 " +
+      "\001(\t\022\013\n\003age\030\002 \001(\005\022\014\n\004like\030\003 \001(\t\022\027\n\003son\030\004 " +
+      "\001(\0132\n.peple.Son*\035\n\nmethodCode\022\017\n\013saveVis" +
+      "itor\020\00025\n\014HelloService\022%\n\010sayHello\022\r.pep" +
+      "le.Parent\032\n.peple.SonB \n\026com.zihai.proto" +
+      ".entityB\006Peopleb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
