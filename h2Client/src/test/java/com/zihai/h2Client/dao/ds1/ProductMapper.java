@@ -1,6 +1,6 @@
 package com.zihai.h2Client.dao.ds1;
 
-import com.zihai.h2Client.core.entity.Product;
+import com.zihai.h2Client.dto.entity.Product;
 
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer id);

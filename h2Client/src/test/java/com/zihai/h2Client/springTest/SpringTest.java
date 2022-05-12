@@ -1,10 +1,10 @@
 package com.zihai.h2Client.springTest;
 
-import com.zihai.h2Client.core.entity.Oplog;
-import com.zihai.h2Client.core.entity.Product;
 import com.zihai.h2Client.dao.ds1.ProductMapper;
 import com.zihai.h2Client.dao.ds2.OplogMapper;
 import com.zihai.h2Client.dto.People;
+import com.zihai.h2Client.dto.entity.Oplog;
+import com.zihai.h2Client.dto.entity.Product;
 import com.zihai.h2Client.util.JsonHelp;
 import org.junit.Test;
 import org.junit.runner.RunWith;

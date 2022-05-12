@@ -1,6 +1,6 @@
 package com.zihai.h2Client.dao.ds2;
 
-import com.zihai.h2Client.core.entity.Oplog;
+import com.zihai.h2Client.dto.entity.Oplog;
 
 public interface OplogMapper {
     int deleteByPrimaryKey(Integer opId);
