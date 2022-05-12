@@ -1,9 +1,5 @@
 package com.zihai.h2Client.test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.*;
 
 public class FutrueTest {
@@ -11,7 +7,7 @@ public class FutrueTest {
     static LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        FutureTest();
+        TestCyclic();
     }
     static void FutureTest(){
         CompletableFuture<String> f = new CompletableFuture<>();
@@ -27,8 +23,8 @@ public class FutrueTest {
             }
         }).start();
         try {
-            System.out.println(f.get(5,TimeUnit.SECONDS));
-            System.out.println(f.get(5,TimeUnit.SECONDS));
+            System.out.println(f.get(5, TimeUnit.SECONDS));
+            System.out.println(f.get(5, TimeUnit.SECONDS));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -37,13 +33,18 @@ public class FutrueTest {
             e.printStackTrace();
         }
     }
-    void TestCyclic(){
-        CyclicBarrier cyclicBarrier = new CyclicBarrier(5);
+
+    static void TestCyclic() {
+        for (int i = 0; i < 5; i++) {
+            queue.add(i);
+        }
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(5, () -> System.out.println("after Barrier"));
         for (int i = 0; i < 5; i++) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        System.out.println(Thread.currentThread().getName() + "start await");
                         cyclicBarrier.await(); // 等待其它线程
                         for (; ; ) {
                             Thread.sleep(10);

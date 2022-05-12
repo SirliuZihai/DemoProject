@@ -11,6 +11,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 
@@ -19,11 +20,13 @@ public class ConverterConfig {
     private String pattern = "yyyy-MM-dd";
 
     @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(){
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(LocalDate.class,new LocalDateDeserializer());
-        module.addSerializer(LocalDate.class,new LocalDateSerializer());
+        module.addDeserializer(LocalDate.class, new LocalDateDeserializer());
+        module.addSerializer(LocalDate.class, new LocalDateSerializer());
+        module.addDeserializer(LocalDateTime.class, new LocalDateDeserializer2());
+        module.addSerializer(LocalDateTime.class, new LocalDateSerializer2());
         objectMapper.registerModule(module);
         //设置过滤掉null值得属性.
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -49,5 +52,19 @@ public class ConverterConfig {
         }
     }
 
+    class LocalDateSerializer2 extends JsonSerializer<LocalDateTime> {
+        @Override
+        public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers)
+                throws IOException {
+            gen.writeString(value.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        }
+    }
 
+    class LocalDateDeserializer2 extends JsonDeserializer<LocalDateTime> {
+        @Override
+        public LocalDateTime deserialize(JsonParser p, DeserializationContext deserializationContext)
+                throws IOException {
+            return LocalDateTime.parse(p.getValueAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        }
+    }
 }

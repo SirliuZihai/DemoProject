@@ -1,7 +1,7 @@
-package com.zihai.h2Client.core;
+package com.zihai.h2Client.config;
 
-import com.zihai.h2Client.core.dto.Car;
-import com.zihai.h2Client.core.dto.CarDto;
+import com.zihai.h2Client.dto.Car;
+import com.zihai.h2Client.dto.CarDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

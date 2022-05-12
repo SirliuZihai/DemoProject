@@ -1,4 +1,4 @@
-package com.zihai.h2Client.core.entity;
+package com.zihai.h2Client.dto.entity;
 
 import java.util.Date;
 

@@ -11,12 +11,12 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
 
 public class ProtoTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtoTest.class);
@@ -40,10 +40,11 @@ public class ProtoTest {
                     ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
                     ch.pipeline().addLast(new ProtobufEncoder());
                     //ch.pipeline().addLast(new HeartBeatHandler());
-                    ch.pipeline().addLast(new TestClientHandler(){
+                    ch.pipeline().addLast("logging", new LoggingHandler("test", LogLevel.DEBUG));
+                    ch.pipeline().addLast(new TestClientHandler() {
                         @Override
                         public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-                            LOGGER.info("{} channelRegistered",ctx.channel().id());
+                            LOGGER.info("{} channelRegistered", ctx.channel().id());
                             ctx.channel().attr(AttributeKey.valueOf("bootstrap")).set(b);
                         }
                     });

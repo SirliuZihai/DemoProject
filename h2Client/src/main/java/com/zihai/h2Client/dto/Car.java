@@ -1,4 +1,4 @@
-package com.zihai.h2Client.core.dto;
+package com.zihai.h2Client.dto;
 
 public class Car {
  

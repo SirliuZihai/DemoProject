@@ -1,8 +1,8 @@
 package com.zihai.h2Client.test;
 
-import com.zihai.h2Client.core.DTOMapper;
-import com.zihai.h2Client.core.dto.Car;
-import com.zihai.h2Client.core.dto.CarDto;
+import com.zihai.h2Client.config.DTOMapper;
+import com.zihai.h2Client.dto.Car;
+import com.zihai.h2Client.dto.CarDto;
 import com.zihai.h2Client.util.JsonHelp;
 
 

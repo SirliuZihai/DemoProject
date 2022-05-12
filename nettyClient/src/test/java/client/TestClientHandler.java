@@ -1,12 +1,8 @@
 package client;
 
-import com.google.gson.Gson;
 import com.zihai.proto.entity.People;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.*;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.AttributeKey;
@@ -17,9 +13,11 @@ import org.springframework.util.Assert;
 import utils.ProtoUtil;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @ChannelHandler.Sharable
 public class TestClientHandler extends ChannelInboundHandlerAdapter {
+    AtomicInteger atomicInteger = new AtomicInteger(0);
     final static Logger LOGGER = LoggerFactory.getLogger(TestClientHandler.class);
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
@@ -39,12 +37,12 @@ public class TestClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("{} read Complete" ,ctx.channel().id());
+        //LOGGER.info("{} read Complete" ,ctx.channel().id());
         ctx.fireChannelReadComplete();
     }
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("{} channelActive...." ,ctx.channel().id());
+        //LOGGER.info("{} channelActive...." ,ctx.channel().id());
         ctx.fireChannelActive();
     }
     @Override
@@ -66,12 +64,12 @@ public class TestClientHandler extends ChannelInboundHandlerAdapter {
     }
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("{} channelInactive",ctx.channel().id());
+        //LOGGER.info("{} channelInactive",ctx.channel().id());
         ctx.fireChannelInactive();
     }
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("{} channelRegistered",ctx.channel().id());
+        //LOGGER.info("{} channelRegistered",ctx.channel().id());
         ctx.fireChannelRegistered();
     }
     /**
@@ -85,14 +83,28 @@ public class TestClientHandler extends ChannelInboundHandlerAdapter {
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if(evt instanceof IdleStateEvent){
             IdleStateEvent event = (IdleStateEvent)evt;
-            if(event.state() == IdleState.WRITER_IDLE){
+            if(event.state() == IdleState.WRITER_IDLE) {
                 People.Son son = People.Son.newBuilder().setAge(23).setName("小兵").build();
                 People.Parent parent = People.Parent.newBuilder()
                         .setAge(11).setName("龙且").setLike("喜好").setSon(son).build();
                 LOGGER.info(ProtoUtil.proto2json(parent));
                 //JsonFormat.parser().merge("json", People.Parent.newBuilder());
-                Assert.notNull(ctx,"ctx is null");
-                ctx.writeAndFlush(parent).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
+                Assert.notNull(ctx, "ctx is null");
+                ctx.writeAndFlush(parent).addListener(new ChannelFutureListener() {
+                    @Override
+                    public void operationComplete(ChannelFuture future) {
+                        if (future.isSuccess()) {
+                            LOGGER.info("{} send heart beat success", ctx.channel().id());
+                            atomicInteger.set(0);
+                        } else {
+                            LOGGER.info("{} send heart beat false", ctx.channel().id());
+                            if (atomicInteger.incrementAndGet() > 2) {
+                                future.channel().close();
+                                atomicInteger.set(0);
+                            }
+                        }
+                    }
+                });
             }
             if(event.state() == IdleState.READER_IDLE){
                 LOGGER.error("{} 超时",ctx.channel().id());

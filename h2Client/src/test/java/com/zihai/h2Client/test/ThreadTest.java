@@ -1,7 +1,9 @@
 package com.zihai.h2Client.test;
 
+import com.zihai.h2Client.util.SubTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 public class ThreadTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ThreadTest.class);
@@ -31,5 +33,12 @@ public class ThreadTest {
     public static void main(String[] args) {
         Mythread myt = new Mythread();
         new Thread(myt).start();
+        MDC.put("name", "liu");
+        new Thread(new SubTask() {
+            @Override
+            public void action() {
+                LOGGER.info("{}", MDC.get("name"));
+            }
+        }).start();
     }
 }

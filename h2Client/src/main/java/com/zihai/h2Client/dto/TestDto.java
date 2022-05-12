@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class TestDto {
     private Boolean notify;
     @JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDate localDate;
+    private LocalDateTime localDate2;
     private List<People> peoples;
 
     public Integer getAge() {
@@ -81,5 +83,13 @@ public class TestDto {
 
     public void setPeoples(List<People> peoples) {
         this.peoples = peoples;
+    }
+
+    public LocalDateTime getLocalDate2() {
+        return localDate2;
+    }
+
+    public void setLocalDate2(LocalDateTime localDate2) {
+        this.localDate2 = localDate2;
     }
 }

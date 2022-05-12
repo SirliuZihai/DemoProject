@@ -7,11 +7,23 @@ public class ClassTest2 {
         son.excute();
     }
 }
-class Father {
+
+abstract class Father {
     private String name;
 
-    Father(){
+    Father() {
         System.out.println("father init");
+        new Thread(() -> {
+            while (true) {
+
+                excute();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
     public void excute(){
         System.out.println("do father"+getName());
@@ -29,6 +41,6 @@ class Son extends Father{
     @Override
     public void excute(){
         System.out.println("do son"+getName());
-        super.excute();
+        // super.excute();
     }
 }

@@ -63,3 +63,9 @@ Configuration:
         - ref: CONSOLE
         - ref: INFOFILE
         - ref: ERRORFILE
+    Logger:
+      - name: test
+        level: debug
+        additivity: false
+        AppenderRef:
+          - ref: CONSOLE
