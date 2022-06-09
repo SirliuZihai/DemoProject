@@ -4,6 +4,6 @@ mybatis:
   mapper-locations: classpath*:mybatis/mapper/*.xml
 spring:
   redis:
-    host: 127.0.0.1
+    host: 192.168.10.88
     port: 6379
     password:

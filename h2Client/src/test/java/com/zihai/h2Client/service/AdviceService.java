@@ -1,7 +1,6 @@
 package com.zihai.h2Client.service;
 
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,7 @@ public class AdviceService {
     public void test(){
         LOGGER.info("test advice");
     }
-    @Around("test()")
+    //@Around("test()")
     Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
         LOGGER.info(methodName);

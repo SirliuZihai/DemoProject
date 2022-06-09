@@ -19,9 +19,9 @@ public class TaskExecutePool {
 	public TaskExecutor taskExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		// 设置核心线程数
-		executor.setCorePoolSize(2);
+		executor.setCorePoolSize(100);
 		// 设置最大线程数
-		executor.setMaxPoolSize(10);
+        executor.setMaxPoolSize(100);
 		// 设置队列容量
 		executor.setQueueCapacity(1000);
 		// 设置线程活跃时间（秒）

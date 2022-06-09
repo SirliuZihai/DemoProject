@@ -1,6 +1,8 @@
 package com.zihai.h2Client.util;
 
+
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class StringUtil {
@@ -34,13 +36,34 @@ public class StringUtil {
         return new String(buf);
     }
 
-    public static String transfer32(Long l){
+    public static String transfer32(Long l) {
         return digits32(l);
+    }
+
+    public static String join(final Iterable<?> target, final String separator) {
+        if (separator == null)
+            throw new IllegalArgumentException("Separator cannot be null");
+
+        if (target == null) {
+            return null;
+        }
+
+        final StringBuilder sb = new StringBuilder();
+        final Iterator<?> it = target.iterator();
+        if (it.hasNext()) {
+            sb.append(it.next());
+            while (it.hasNext()) {
+                sb.append(separator);
+                sb.append(it.next());
+            }
+        }
+        return sb.toString();
+
     }
 
     public static void main(String[] args) {
         System.out.println(transfer32(1686216l));
-        System.out.println(Long.toString(1686216l,32).toUpperCase());
+        System.out.println(Long.toString(1686216l, 32).toUpperCase());
 
         Set<String> o = new HashSet<>();
         o.add("1aasdf");
