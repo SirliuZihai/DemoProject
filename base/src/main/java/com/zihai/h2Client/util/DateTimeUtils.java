@@ -61,6 +61,19 @@ public class DateTimeUtils {
 		System.out.println("============获取当前日期的20年后的日期=============");
 		System.out.println(getCurDateAfterTwentyYear());
 
+		//测试 是否支持科令夏令时
+		//美国纽约时区为例
+		ZoneId zoneId = ZoneId.of("America/New_York");
+		ZoneId zoneId2 = ZoneId.of("Asia/Shanghai");
+
+		System.out.println(LocalDateTime.now(zoneId).with(LocalTime.MIN)); //begint
+		System.out.println(LocalDateTime.now(zoneId).with(LocalTime.MAX)); //begint
+		//获取当前时区当前时间
+		LocalDateTime localDateTime1 = LocalDateTime.parse("2021-07-06 15:10:10", DATETIME_FORMATTER);
+		LocalDateTime localDateTime2 = LocalDateTime.parse("2021-01-06 15:10:10", DATETIME_FORMATTER);
+
+		System.out.println(localDateTime1.atZone(zoneId2).withZoneSameInstant(zoneId).toLocalDateTime());
+		System.out.println(localDateTime2.atZone(zoneId2).withZoneSameInstant(zoneId).toLocalDateTime());
 	}
 
 	/**
