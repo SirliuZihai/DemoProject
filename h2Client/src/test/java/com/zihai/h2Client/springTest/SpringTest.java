@@ -6,6 +6,8 @@ import com.zihai.h2Client.dto.People;
 import com.zihai.h2Client.dto.entity.Oplog;
 import com.zihai.h2Client.dto.entity.Product;
 import com.zihai.h2Client.util.JsonHelp;
+import com.zihai.h2Client.util.SubTask;
+import io.netty.util.internal.ConcurrentSet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -18,10 +20,14 @@ import org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoCo
 import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {RedisRepositoriesAutoConfiguration.class, MongoRepositoriesAutoConfiguration.class })
@@ -40,14 +46,38 @@ public class SpringTest {
     private ProductMapper productMapper;
     @Autowired
     private People people;
+    @Resource
+    TaskExecutor taskExecutor;
+
+    public static void main(String[] args) {
+    }
 
     @Test
-    public void config(){
+    public void asynTest() throws InterruptedException {
+        Set<Integer> s = new ConcurrentSet<>();
+        CountDownLatch countDownLatch = new CountDownLatch(100);
+        for (int i = 0; i < 100; i++) {
+            int finalI = i;
+            taskExecutor.execute(new SubTask() {
+                @Override
+                public void action() {
+                    s.add(finalI);
+                    countDownLatch.countDown();
+                }
+            });
+        }
+        countDownLatch.await(10, TimeUnit.SECONDS);
+        System.out.println(s.size());
+
+    }
+
+    @Test
+    public void config() {
         LOGGER.info(JsonHelp.gson.toJson(people));
     }
 
     @Test
-    public void test(){
+    public void test() {
         Oplog oplog = oplogMapper.selectByPrimaryKey(3101);
         System.out.println(JsonHelp.gson.toJson(oplog));
 

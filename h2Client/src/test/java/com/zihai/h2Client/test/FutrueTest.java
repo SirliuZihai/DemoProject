@@ -7,7 +7,7 @@ public class FutrueTest {
     static LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        TestCyclic();
+        FutureTest();
     }
     static void FutureTest(){
         CompletableFuture<String> f = new CompletableFuture<>();
@@ -15,7 +15,7 @@ public class FutrueTest {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(4000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

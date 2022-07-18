@@ -157,16 +157,40 @@
               <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
               <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
           </table>-->
-        <table schema="public" tableName="strategy_profit" mapperName="StrategyProfitDao"
-               domainObjectName="StrategyProfitDO"
+        <!-- <table schema="public" tableName="stock_entrust_order" mapperName="StockEntrustOrderDao"
+                domainObjectName="StockEntrustOrder"
+                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false"
+                enableUpdateByPrimaryKey="false">
+             <columnOverride column="entrust_time" javaType="java.time.LocalDate" jdbcType="TIMESTAMP"></columnOverride>
+             <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+             <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+         </table>
+         <table schema="public" tableName="stock_entrust_order_origin" mapperName="StockEntrustOrderOriginDao"
+                domainObjectName="StockEntrustOrderOrigin"
+                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false"
+                enableUpdateByPrimaryKey="false">
+         </table>-->
+        <!-- <table schema="public" tableName="stock_account_position" mapperName="StockAccountPositionDao"
+                domainObjectName="StockAccountPositionDO"
+                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false"
+                enableUpdateByPrimaryKey="false">
+             <columnOverride column="snap_date" javaType="java.time.LocalDate" jdbcType="TIMESTAMP"></columnOverride>
+             <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+             <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
+         </table>-->
+        <table schema="public" tableName="trade_order" mapperName="TradeOrderDao"
+               domainObjectName="TradeOrderDO"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false">
-            <columnOverride column="start_date" javaType="java.time.LocalDate" jdbcType="TIMESTAMP"></columnOverride>
             <columnOverride column="create_time" javaType="java.time.LocalDateTime"
                             jdbcType="TIMESTAMP"></columnOverride>
             <columnOverride column="update_time" javaType="java.time.LocalDateTime"
                             jdbcType="TIMESTAMP"></columnOverride>
         </table>
+
     </context>
 </generatorConfiguration>
