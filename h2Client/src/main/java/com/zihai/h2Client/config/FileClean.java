@@ -32,17 +32,18 @@ public class FileClean implements InitializingBean {
 
 
     public void deleteOutTime(File f) {
-        LocalDateTime filedate = LocalDateTime.ofInstant(Instant.ofEpochMilli(new BigDecimal(f.lastModified()).longValue()), ZoneId.systemDefault());
-        if (filedate.isBefore(DeleteDay)) {
-            f.delete();
-        }
         if (f.isDirectory()) {
+            for (File f1 : f.listFiles()) {
+                deleteOutTime(f1);
+            }
             if (f.listFiles().length == 0) {
                 f.delete();
                 return;
             }
-            for (File f1 : f.listFiles()) {
-                deleteOutTime(f1);
+        } else {
+            LocalDateTime filedate = LocalDateTime.ofInstant(Instant.ofEpochMilli(new BigDecimal(f.lastModified()).longValue()), ZoneId.systemDefault());
+            if (filedate.isBefore(DeleteDay)) {
+                f.delete();
             }
         }
     }
