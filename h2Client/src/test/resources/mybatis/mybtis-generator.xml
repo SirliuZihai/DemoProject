@@ -129,12 +129,7 @@
 
            -->
 
-        <!--   <table schema="public" tableName="trade_order" mapperName="TradeOrderDao" domainObjectName="TradeOrderDO"
-                  enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
-                  enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false" enableUpdateByPrimaryKey="false">
-               <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
-               <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
-           </table>-->
+        <!--  -->
         <!-- <table schema="public" tableName="strategy_martin" mapperName="StrategyMartinDao"
                 domainObjectName="StrategyMartinDO"
                 enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
@@ -181,8 +176,17 @@
              <columnOverride column="create_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
              <columnOverride column="update_time" javaType="java.time.LocalDateTime" jdbcType="TIMESTAMP"></columnOverride>
          </table>-->
-        <table schema="public" tableName="trade_order" mapperName="TradeOrderDao"
-               domainObjectName="TradeOrderDO"
+        <!-- <table schema="public" tableName="strategy_grid" mapperName="StrategyGridDao"
+                domainObjectName="StrategyGridDO"
+                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false"
+                enableUpdateByPrimaryKey="false">
+             <columnOverride column="create_time" javaType="java.time.LocalDateTime"
+                             jdbcType="TIMESTAMP"></columnOverride>
+             <columnOverride column="update_time" javaType="java.time.LocalDateTime"
+                             jdbcType="TIMESTAMP"></columnOverride>
+         </table>-->
+        <table schema="public" tableName="trade_order" mapperName="TradeOrderDao" domainObjectName="TradeOrderDO"
                enableUpdateByExample="false" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableInsert="false" enableDeleteByPrimaryKey="false"
                enableUpdateByPrimaryKey="false">

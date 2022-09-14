@@ -21,14 +21,18 @@ import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoCo
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+@EnableScheduling
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration(exclude = {RedisRepositoriesAutoConfiguration.class, MongoRepositoriesAutoConfiguration.class })
 @ComponentScan("com.zihai.h2Client")
@@ -48,6 +52,16 @@ public class SpringTest {
     private People people;
     @Resource
     TaskExecutor taskExecutor;
+    @Resource
+    ScheduledExecutorService scheduledExecutorService;
+
+    @Test
+    public void testSchedule() throws InterruptedException {
+        ScheduledFuture future = scheduledExecutorService.scheduleWithFixedDelay(() -> System.out.println("mytask"), 1, 3, TimeUnit.SECONDS);
+        Thread.sleep(7000);
+        future.cancel(true);
+        Thread.sleep(50000);
+    }
 
     public static void main(String[] args) {
     }
@@ -95,7 +109,7 @@ public class SpringTest {
         executor.setAwaitTerminationSeconds(5);
         executor.initialize();
         CountDownLatch countDownLatch = new CountDownLatch(100);
-        for(int i=0 ;i<100;i++){
+        for(int i=0 ; i<100; i++){
             String finalI = String.valueOf(i);
             executor.execute(new Runnable() {
                 @Override

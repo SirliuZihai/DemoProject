@@ -1,5 +1,7 @@
 package com.zihai.h2Client.test;
 
+import com.zihai.h2Client.dto.BusinessException;
+
 import java.util.concurrent.*;
 
 public class FutrueTest {
@@ -16,6 +18,7 @@ public class FutrueTest {
             public void run() {
                 try {
                     Thread.sleep(4000);
+                    f.completeExceptionally(new BusinessException("busiEx"));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
