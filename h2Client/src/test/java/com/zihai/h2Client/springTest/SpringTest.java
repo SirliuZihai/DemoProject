@@ -8,6 +8,7 @@ import com.zihai.h2Client.dto.entity.Product;
 import com.zihai.h2Client.util.JsonHelp;
 import com.zihai.h2Client.util.SubTask;
 import io.netty.util.internal.ConcurrentSet;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -26,6 +27,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
@@ -54,6 +56,15 @@ public class SpringTest {
     TaskExecutor taskExecutor;
     @Resource
     ScheduledExecutorService scheduledExecutorService;
+
+    /**
+     * 设置系统参数
+     */
+    @BeforeClass
+    public static void setSystemProperty() {
+        Properties properties = System.getProperties();
+        properties.setProperty("spring.profiles.active", "test");
+    }
 
     @Test
     public void testSchedule() throws InterruptedException {
