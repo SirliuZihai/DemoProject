@@ -41,6 +41,7 @@ public class HttpUtil implements InitializingBean {
 
     public Document PostXmlWeiXin(String url, String xml) {
         logger.info("postxml=={}", xml);
+
         RequestBody body = RequestBody.create(MediaType.parse("text/xml"), xml);
         Request request = new Request.Builder()
                 .url(url).method("POST", body).build();

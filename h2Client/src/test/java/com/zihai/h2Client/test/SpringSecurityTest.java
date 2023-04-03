@@ -3,13 +3,10 @@ package com.zihai.h2Client.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jmx.snmp.tasks.ThreadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.concurrent.DelegatingSecurityContextExecutor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
@@ -17,7 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SpringSecurityTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringSecurityTest.class);

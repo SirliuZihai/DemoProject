@@ -3,8 +3,6 @@ package com.zihai.h2Client.util.crypte;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.security.rsa.RSAPrivateCrtKeyImpl;
-import sun.security.rsa.RSAPublicKeyImpl;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
@@ -55,7 +53,7 @@ public class RsaCryptoUtil {
 			PrivateKey privateKey = keyFactory.generatePrivate(spec);
 			Cipher cipher = Cipher.getInstance(RSA_ECB);
 			cipher.init(Cipher.DECRYPT_MODE, privateKey);
-			textBytes = decrypt(sSrc, ((RSAPrivateCrtKeyImpl) privateKey).getModulus().bitLength(), cipher);
+			textBytes = decrypt(sSrc, privateKey.getEncoded().length, cipher);
 		} catch (Throwable throwable) {
 			log.info("RSA 私钥解密异常：{}", throwable.getMessage() + "" + throwable);
 		}
@@ -88,7 +86,7 @@ public class RsaCryptoUtil {
 			PublicKey publicKey = keyFactory.generatePublic(x509Spec);
 			Cipher cipher = Cipher.getInstance(RSA_ECB);
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-			cipherBytes = encrypt(sSrc, ((RSAPublicKeyImpl) publicKey).getModulus().bitLength(), cipher);
+			cipherBytes = encrypt(sSrc, publicKey.getEncoded().length, cipher);
 		} catch (Throwable throwable) {
 			log.info("RSA 公钥加密异常：{}", throwable.getMessage() + "" + throwable);
 		}

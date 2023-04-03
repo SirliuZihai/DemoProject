@@ -2,7 +2,7 @@ spring:
   application:
     name: testApp
   redis:
-    host: 192.168.10.88
+    host: 192.168.10.27
     port: 6379
     password:
     database: 4
@@ -12,10 +12,10 @@ spring:
       database: 0
     one:
       database: 1
-    enable: false
-    cluster:
-      nodes: 172.18.0.8:6379
-      enable: true
+    enable: true
+  #    cluster:
+  #      nodes: 172.18.0.8:6379
+  #      enable: false
 
   mail:
     properties:

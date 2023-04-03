@@ -1,0 +1,9 @@
+FROM openjdk:11
+ADD hadoop-3.3.4.tar.gz /
+LABEL version="v1.0"
+LABEL description="后台1.0"
+EXPOSE 8000 8001
+ENV TZ=Asia/Shanghai
+ENV LANG=en_US.UTF-8
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ENTRYPOINT ["/bin/bash"]

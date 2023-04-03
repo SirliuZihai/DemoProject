@@ -6,11 +6,29 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="spi" />
+        <module name="base" />
+      </profile>
+      <profile name="Annotation profile for DemoProject" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.4.2.Final/mapstruct-processor-1.4.2.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.2.Final/mapstruct-1.4.2.Final.jar" />
+        </processorPath>
+        <module name="h2Client" />
         <module name="NettyServer" />
         <module name="nettyClient" />
-        <module name="base" />
-        <module name="h2Client" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="8" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="NettyServer" options="-verbose -bootclasspath $PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/rt.jar;$PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/jce.jar" />
+      <module name="h2Client" options="-verbose -bootclasspath $PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/rt.jar;$PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/jce.jar" />
+      <module name="nettyClient" options="-verbose -bootclasspath $PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/rt.jar;$PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/jce.jar" />
+    </option>
   </component>
 </project>

@@ -12,5 +12,7 @@ public class BaseTest {
         int[] arr = {1, 2, 899, 997, 998, 999};
         System.out.println(Arrays.binarySearch(arr, 997));
 
+        System.out.println("woshihui".substring(0, "woshihui".lastIndexOf("kaixin")));
+
     }
 }
