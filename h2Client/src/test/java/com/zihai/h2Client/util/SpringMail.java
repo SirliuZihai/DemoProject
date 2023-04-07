@@ -16,13 +16,16 @@ public class SpringMail {
     private static JavaMailSenderImpl sender =new JavaMailSenderImpl();;
 
     static {
-        sender.setHost("smtp.163.com");
+        sender.setHost("smtp.exmail.qq.com");
         sender.setPort(465);
         sender.setProtocol("smtp");
-        sender.setUsername("liuyizhi805@163.com");
-        sender.setPassword("YCIFOANPWUAJSIFV");
+        sender.setUsername("ZTHA_IT@ztha.group");
+        sender.setPassword("FdrfchDcSZEPs544");
         Properties properties = new Properties();
-        properties.setProperty("mail.smtp.ssl.enable","true");
+        properties.setProperty("mail.smtp.ssl.enable", "true");
+        properties.setProperty("mail.smtp.socketFactory.port", "465");
+        properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        sender.setJavaMailProperties(properties);
     }
 
     public static String sendCode(String mailName,String code){
@@ -46,6 +49,6 @@ public class SpringMail {
 
     public static void main(String[] args) throws MessagingException, IOException, InterruptedException {
         //SpringMail mail = new SpringMail();
-        SpringMail.sendCode("5389054@qq.com","TEXT3");
+        SpringMail.sendCode("liuyizhi@ztha.group", "TEXT3");
     }
 }
