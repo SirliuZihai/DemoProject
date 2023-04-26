@@ -3,7 +3,6 @@ package com.zihai.h2Client.test;
 
 import com.zihai.h2Client.dto.People;
 import com.zihai.h2Client.util.JsonHelp;
-import org.beetl.ext.fn.Json;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisClusterConnection;
-import org.springframework.data.redis.connection.RedisClusterNode;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisNode;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -46,26 +46,33 @@ public class RedisTest {
     //@Resource(name="redisOneTemplate")
     private RedisTemplate<String, Integer> redisTemplate;
 
-   // @Resource(name="redisTemplate")
+    @Resource(name = "redisTemplate")
     private RedisTemplate redisTemplate2;
 
     //@Resource(name="redisOneTemplate")
     private RedisTemplate<String, BigDecimal> redisTemplate3;
 
-    @Resource(name = "redisClusterTemplate")
+    //@Resource(name = "redisClusterTemplate")
     private RedisClusterConnection redisClusterConnection;
 
     @Autowired
     ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Test
-    public void TestCluster(){
+    public void TestLua() {
+        DefaultRedisScript redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("lua/test.lua")));
+        redisTemplate.execute(redisScript, new ArrayList<>(), "vals");
+    }
+
+    @Test
+    public void TestCluster() {
         LOGGER.info("begingTestCluseter2");
         redisClusterConnection.del("tempHuodong".getBytes());
-        for(int i=0;i<20;i++){
-            redisClusterConnection.lPush("tempHuodong".getBytes(),(i+"").getBytes());
+        for (int i = 0; i < 20; i++) {
+            redisClusterConnection.lPush("tempHuodong".getBytes(), (i + "").getBytes());
         }
-        redisClusterConnection.lRem("tempHuodong".getBytes(),1,"18".getBytes());
+        redisClusterConnection.lRem("tempHuodong".getBytes(), 1, "18".getBytes());
         List<String> list = new ArrayList<>();
         redisClusterConnection.lRange("tempHuodong".getBytes(),0,-1).stream().forEach(e->{
             list.add(new String(e));

@@ -53,6 +53,7 @@
                     <groupId>io.netty</groupId>
                 </exclusion>
             </exclusions>
+            <scope>test</scope>
         </dependency>
         <!-- zk的依赖 -->
         <dependency>
@@ -70,6 +71,7 @@
                     <artifactId>jline</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.lmax</groupId>

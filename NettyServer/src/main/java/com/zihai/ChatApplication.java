@@ -1,7 +1,6 @@
 package com.zihai;
 
 import com.zihai.websocket.netty.WebSocketChatServer;
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -16,7 +15,7 @@ import javax.annotation.Resource;
 /**
  **  程序入口
  */
-@EnableDubbo
+//@EnableDubbo
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan("com.zihai")

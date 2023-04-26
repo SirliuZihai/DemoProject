@@ -26,6 +26,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="DemoProject" options="-verbose -bootclasspath $PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/rt.jar;$PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/jce.jar" />
       <module name="NettyServer" options="-verbose -bootclasspath $PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/rt.jar;$PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/jce.jar" />
       <module name="h2Client" options="-verbose -bootclasspath $PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/rt.jar;$PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/jce.jar" />
       <module name="nettyClient" options="-verbose -bootclasspath $PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/rt.jar;$PROJECT_DIR$/../../TOOL/jdk1.8.0_102/jre/lib/jce.jar" />
