@@ -8,9 +8,9 @@ import com.zihai.h2Client.util.MyHttpServletRequestWrapper;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.script.ScriptException;
 import javax.servlet.*;
@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
 
 @Component
 public class ApiFilter implements Filter {
@@ -75,7 +74,9 @@ public class ApiFilter implements Filter {
         }
 
         //res.setAttribute("curUser",user);
+        MDC.put("USER_ID", "357");
         chain.doFilter(requestWrapper, resp);
+        MDC.clear();
     }
 
     @Override
