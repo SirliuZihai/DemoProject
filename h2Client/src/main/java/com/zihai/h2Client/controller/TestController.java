@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -128,14 +129,20 @@ public class TestController {
             e.printStackTrace();
         }
     }
+
     @GetMapping("test/cache")
-    public Result testCache(String id){
+    public Result testCache(String id) {
         return Result.success(testService.testCache(id));
     }
 
     @GetMapping("test/cacheEvict")
-    public Result testCacheEvict(String id){
+    public Result testCacheEvict(String id) {
         testService.testCacheEvict(id);
         return Result.success("ok");
+    }
+
+    @GetMapping("test/getDate")
+    public Result getDate() {
+        return Result.success(LocalTime.now().toString());
     }
 }

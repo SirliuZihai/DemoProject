@@ -16,9 +16,14 @@
     <dependencies>
         <dependency>
             <groupId>com.zihai</groupId>
+            <artifactId>base</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zihai</groupId>
             <artifactId>spi</artifactId>
             <version>1.0</version>
-           <!-- <scope>system</scope>-->
+            <!-- <scope>system</scope>-->
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
